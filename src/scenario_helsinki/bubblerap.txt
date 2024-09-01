@@ -1,0 +1,108 @@
+Scenario.simulateConnections = true
+Scenario.updateInterval = 0.1
+Scenario.endTime = 7200
+
+Events.nrof = 1
+Events1.class = MessageEventGenerator
+Events1.interval = 25, 35
+Events1.size = 250k, 500k
+Events1.hosts = 0, 199
+
+Events1.prefix = A
+Scenario.name = EpidemicRouter_pfxA_ttl_30
+Group.msgTtl = 30
+Scenario.name = EpidemicRouter_pfxA_ttl_60
+Group.msgTtl = 60
+Scenario.name = EpidemicRouter_pfxA_ttl_90
+Group.msgTtl = 90
+Scenario.name = EpidemicRouter_pfxA_ttl_120
+Group.msgTtl = 120
+
+Events1.prefix = B
+Scenario.name = EpidemicRouter_pfxB_ttl_30
+Group.msgTtl = 30
+Scenario.name = EpidemicRouter_pfxB_ttl_60
+Group.msgTtl = 60
+Scenario.name = EpidemicRouter_pfxB_ttl_90
+Group.msgTtl = 90
+Scenario.name = EpidemicRouter_pfxB_ttl_120
+Group.msgTtl = 120
+
+Events1.prefix = C
+Scenario.name = EpidemicRouter_pfxC_ttl_30
+Group.msgTtl = 30
+Scenario.name = EpidemicRouter_pfxC_ttl_60
+Group.msgTtl = 60
+Scenario.name = EpidemicRouter_pfxC_ttl_90
+Group.msgTtl = 90
+Scenario.name = EpidemicRouter_pfxC_ttl_120
+Group.msgTtl = 120
+
+Report.nrofReports = 3
+Report.warmup = 0
+Report.reportDir = reports/helsinki/EpidemicRouter/
+Report.report1 = EventLogReport
+Report.report2 = CreatedMessagesReport
+Report.report3 = DeliveredMessagesReport
+
+btInterface.type = SimpleBroadcastInterface
+btInterface.transmitSpeed = 250k
+btInterface.transmitRange = 100
+
+Scenario.nrofHostGroups = 1
+
+Group.movementModel = ShortestPathMapBasedMovement
+Group.router = EpidemicRouter
+Group.bufferSize = 25M
+Group.waitTime = 0, 30
+Group.nrofInterfaces = 1
+Group.interface1 = btInterface
+Group.speed = 0.5, 1.5
+
+Group.nrofHosts = 200
+
+# group1 (pedestrians) specific settings
+Group1.groupID = p
+
+## Movement model settings
+# seed for movement models' pseudo random number generator (default = 0)
+MovementModel.rngSeed = 1
+# World's size for Movement Models without implicit size (width, height; meters)
+MovementModel.worldSize = 4500, 3400
+# How long time to move hosts in the world before real simulation
+MovementModel.warmup = 1000
+
+## Map based movement -movement model specific settings
+MapBasedMovement.nrofMapFiles = 4
+
+MapBasedMovement.mapFile1 = data/roads.wkt
+MapBasedMovement.mapFile2 = data/main_roads.wkt
+MapBasedMovement.mapFile3 = data/pedestrian_paths.wkt
+MapBasedMovement.mapFile4 = data/shops.wkt
+
+## Default settings for some routers settings
+ProphetRouter.secondsInTimeUnit = 30
+SprayAndWaitRouter.nrofCopies = 6
+SprayAndWaitRouter.binaryMode = true
+
+## Optimization settings -- these affect the speed of the simulation
+## see World class for details.
+Optimization.cellSizeMult = 5
+Optimization.randomizeUpdateOrder = true
+
+
+## GUI settings
+
+# GUI underlay image settings
+GUI.UnderlayImage.fileName = data/helsinki_underlay.png
+# Image offset in pixels (x, y)
+GUI.UnderlayImage.offset = 64, 20
+# Scaling factor for the image
+GUI.UnderlayImage.scale = 4.75
+# Image rotation (radians)
+GUI.UnderlayImage.rotate = -0.015
+
+# how many events to show in the log panel (default = 30)
+GUI.EventLogPanel.nrofEvents = 100
+# Regular Expression log filter (see Pattern-class from the Java API for RE-matching details)
+#GUI.EventLogPanel.REfilter = .*p[1-9]<->p[1-9]$

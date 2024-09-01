@@ -1,0 +1,14 @@
+bin/*
+
+.classpath
+
+.projects
+
+.settings/*
+
+src/reports/*/*/*.txt
+src/reports/*/*.pdf
+src/reports/*/*.png
+
+src/test/
+src/wdm*
