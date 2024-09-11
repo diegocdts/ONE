@@ -143,8 +143,6 @@ public class DecisionEngineRouter extends ActiveRouter
 	{
 		if(decider.newMessage(m))
 		{
-			if(m.getId().equals("M14"))
-				System.out.println("Host: " + getHost() + "Creating M14");
 			makeRoomForNewMessage(m.getSize());
             m.setTtl(this.msgTtl);
 			addToMessages(m, true);
@@ -333,8 +331,6 @@ public class DecisionEngineRouter extends ActiveRouter
 		else if (deleteDelivered && (retVal == DENIED_OLD || retVal == DENIED_DELIVERED) && 
 				decider.shouldDeleteOldMessage(m, con.getOtherNode(getHost()))) {
 			/* final recipient has already received the msg -> delete it */
-			if(m.getId().equals("M14"))
-				System.out.println("Host: " + getHost() + " told to delete M14");
 			this.deleteMessage(m.getId(), false);
 		}
 		
@@ -418,8 +414,6 @@ public class DecisionEngineRouter extends ActiveRouter
 		
 		if(decider.shouldDeleteSentMessage(transferred, con.getOtherNode(getHost())))
 		{
-			if(transferred.getId().equals("M14"))
-				System.out.println("Host: " + getHost() + " deleting M14 after transfer");
 			this.deleteMessage(transferred.getId(), false);
 			
 			for(Iterator<Tuple<Message, Connection>> i = outgoingMessages.iterator(); 
@@ -468,14 +462,13 @@ public class DecisionEngineRouter extends ActiveRouter
 	
 	protected void findConnectionsForNewMessage(Message m, DTNHost from)
 	{
-		for(Connection c : getHost()) 
+		for(Connection c : getHost().getConnections()) 
 		//for(Connection c : getConnections())
 		{
 			DTNHost other = c.getOtherNode(getHost());
+			if (c.isUp()) decider.connectionUp(getHost(), other);
 			if(other != from && decider.shouldSendMessageToHost(m, other))
 			{
-				if(m.getId().equals("M14"))
-					System.out.println("Adding attempt for M14 from: " + getHost() + " to: " + other);
 				outgoingMessages.add(new Tuple<Message, Connection>(m, c));
 			}
 		}

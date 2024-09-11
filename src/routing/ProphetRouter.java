@@ -239,7 +239,11 @@ public class ProphetRouter extends ActiveRouter {
 		}
 		
 		// sort the message-connection tuples
-		Collections.sort(messages, new TupleComparator());
+		try {
+			Collections.sort(messages, new TupleComparator());
+		} catch (IllegalArgumentException e) {
+			System.out.println("Erro ao tentar ordenar mensagens");
+		}
 		return tryMessagesForConnected(messages);	// try to send messages
 	}
 	

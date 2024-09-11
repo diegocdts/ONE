@@ -70,9 +70,10 @@ public class MovementNs2Report extends Report implements MovementListener {
 		int index = host.getAddress();
 		double time = getSimTime();
 		
-		write(nsCmd + " at " + time + " \"\\" + nodeArray +	"(" + index + ")" + 
-				" setdest " + fix(dst.getX()) + " " + fix(dst.getY()) +
-				" " + speed + "\""); 
+		//write(nsCmd + " at " + time + " \"\\" + nodeArray +	"(" + index + ")" + 
+		//		" setdest " + fix(dst.getX()) + " " + fix(dst.getY()) +
+		//		" " + speed + "\"");
+		write(fix(dst.getX()) + ", " + fix(dst.getY()) + ", " + index + ", " + time);
 	}
 
 	/** 

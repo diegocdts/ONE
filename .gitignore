@@ -6,6 +6,7 @@ bin/*
 
 .settings/*
 
+src/reports/*/*.txt
 src/reports/*/*/*.txt
 src/reports/*/*.pdf
 src/reports/*/*.png

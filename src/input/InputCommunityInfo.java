@@ -15,13 +15,17 @@ import routing.periodic_community.PCRouter;
 
 public class InputCommunityInfo {
 	
+	String[] helsinki = {"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/", 
+			"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_AVG/SLI_community_info/previous_community_count/"};
+	
+	String[] manhattan = {"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/", 
+	"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/SLI_community_info/previous_community_count/"};
+	
 	public int currentInterval = 0;
 	public double currentThreshold = 1;
-	public double intervalSize = 900;
-	public String rootIntervalLabels = 
-			"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/ACC_community_info/community_id_maps/";
-	public String rootPreviousCommunityCount = 
-			"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/ACC_community_info/previous_community_count/";
+	public String rootIntervalLabels = manhattan[0];
+	public String rootPreviousCommunityCount = manhattan[1];
+	public double intervalSize = 2400;
 	public String pathIntervalLabels = "";
 	public String pathPreviousCommunityCount = "";
 	public SimScenario scenario;
@@ -31,6 +35,7 @@ public class InputCommunityInfo {
 	
 	public InputCommunityInfo(SimScenario scenario, double simTime) {
 		if (Settings.DEF_SETTINGS_FILE.contains("pcrouter")) {
+			
 			this.scenario = scenario;
 			String fileName = "interval_X.txt".replace("X", String.valueOf(this.currentInterval));
 			
@@ -116,12 +121,11 @@ public class InputCommunityInfo {
 	        {
         		MessageRouter mRouter = host.getRouter();
         		PCRouter router = (PCRouter) ((DecisionEngineRouter)mRouter).getDecisionEngine();
-        		router.meanNoderPerCommunity = scenario.getHosts().size() / this.currentNodesPerCommunity.size();
-	    		router.interCommunityContact.clear();
-	    		router.intraCommunityContact.clear();
+        		router.setMeanNoderPerCommunity(scenario.getHosts().size() / this.currentNodesPerCommunity.size());
+	    		router.clearCounters();
 	    		if (this.currentCommunityIdMap.containsKey(host.getAddress())) {
 	        		int label = this.currentCommunityIdMap.get(host.getAddress());
-	        		router.setCommunityLabel(label);
+	        		router.setLabel(label);
 	        		router.setNodesPerCommunity(this.currentNodesPerCommunity);
 	        	}
 	    		
@@ -132,7 +136,7 @@ public class InputCommunityInfo {
 	        			previousCount.put(Integer.valueOf(pair.replace(key, "")), count);
 	        		}
 	        	});
-	        	router.setPreviousCount(previousCount);
+	        	router.setTimesInCommunityWith(previousCount);
 	        });
 		}
 	}
