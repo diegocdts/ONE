@@ -33,18 +33,19 @@ public class Settings {
 	/** properties object where the setting files are read into */
 	protected static Properties props;
 	/** file name of the default settings file ({@value}) */
-//	public static final String DEF_SETTINGS_FILE ="default_settings.txt";
+	public static final String DEF_SETTINGS_FILE ="default_settings.txt";
 
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/mobility_generator.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcrouter.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcrouter2.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcrouter40.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcrouter20.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/mobility_generator.txt";
-	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/bubblerap.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcrouter.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcrouter40.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcrouter20.txt";
 
 	/** 
 	 * Setting to define the file name where all read settings are written
