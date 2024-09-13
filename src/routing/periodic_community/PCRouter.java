@@ -15,7 +15,6 @@ public class PCRouter implements RoutingDecisionEngine{
 	
 	private int label = 5000;
 	private Map<Integer, Integer> nodesPerCommunity = new HashMap<Integer, Integer>(); //key: community label, value: number of nodes inside it
-	private Map<Integer, Integer> timesInCommunityWith = new HashMap<Integer, Integer>();	//key: node address, value: n of times they were in the same community
 	private double meanNodesPerCommunity = -1;
 
 	private Map<Integer, Integer> contactsWithCommunity = new HashMap<Integer, Integer>();
@@ -78,11 +77,7 @@ public class PCRouter implements RoutingDecisionEngine{
 		
 		if(mRouter.hasMessage(m.getId()) || deliveredMessages.containsKey(m.getId()) || otherRouter.deliveredMessages.containsKey(m.getId())) 
 			return false;
-		
-		//===============================================================================================================
-		int destCommunitySize = this.getNodesPerCommunity().get(this.getLabel());
-		int otherCommunitySize = this.getNodesPerCommunity().get(otherRouter.getLabel());
-		
+				
 		//===============================================================================================================
 		int thisIntraContactsWithDest = intraCommunityContact.getOrDefault(destiny.getAddress(), 0);
 		int otherIntraContactsWithDest = otherRouter.intraCommunityContact.getOrDefault(destiny.getAddress(), 0);
@@ -94,17 +89,12 @@ public class PCRouter implements RoutingDecisionEngine{
 		//===============================================================================================================
 		int thisContactsWithDestComm = contactsWithCommunity.getOrDefault(destinyRouter.getLabel(), 0);
 		int otherContactsWithDestComm = otherRouter.contactsWithCommunity.getOrDefault(destinyRouter.getLabel(), 0);
-				
-		//===============================================================================================================
-		int thisInCommunityWithDest = timesInCommunityWith.getOrDefault(destiny.getAddress(), 0);
-		int otherInCommunityWithDest = otherRouter.timesInCommunityWith.getOrDefault(destiny.getAddress(), 0);
 		
 		if (this.getLabel() == destinyRouter.getLabel()) {
 			if (otherRouter.getLabel() == destinyRouter.getLabel()) {
 				boolean cond1 = otherIntraContactsWithDest > thisIntraContactsWithDest;
 				boolean cond2 = otherRouter.intraContacts > this.intraContacts;
 				boolean cond3 = otherRouter.intraCommunityContact.size() > intraCommunityContact.size();
-				boolean cond4 = destCommunitySize < meanNodesPerCommunity;
 				if (cond1 && cond2	&& cond3) {
 					return true;
 				}
@@ -112,9 +102,6 @@ public class PCRouter implements RoutingDecisionEngine{
 					return true;
 				}
 				else if (cond1 || cond2 || cond3) {
-					return true;
-				}
-				else if (cond4) {
 					return true;
 				}
 			}
@@ -214,14 +201,6 @@ public class PCRouter implements RoutingDecisionEngine{
 	public void setNodesPerCommunity(Map<Integer, Integer> nodesPerCommunity) {
 		this.nodesPerCommunity = new HashMap<Integer, Integer>();
 		this.nodesPerCommunity.putAll(nodesPerCommunity);
-	}
-
-	public Map<Integer, Integer> getTimesInCommunityWith() {
-		return timesInCommunityWith;
-	}
-
-	public void setTimesInCommunityWith(Map<Integer, Integer> timesInCommunityWith) {
-		this.timesInCommunityWith.putAll(timesInCommunityWith);
 	}
 	
 	public void setMeanNoderPerCommunity(double meanNoderPerCommunity) {

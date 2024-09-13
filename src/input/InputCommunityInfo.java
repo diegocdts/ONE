@@ -15,19 +15,22 @@ import routing.periodic_community.PCRouter;
 
 public class InputCommunityInfo {
 	
-	String[] helsinki = {"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/", 
-			"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_AVG/SLI_community_info/previous_community_count/"};
+	String helsinki = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
 	
-	String[] manhattan = {"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/", 
-	"/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/SLI_community_info/previous_community_count/"};
+	String manhattan = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
+
+	String sfc = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
 	
+	int _4hours = 14400;
+	int _40min = 2400;
+	int _20min = 1200;
+
 	public int currentInterval = 0;
 	public double currentThreshold = 1;
-	public String rootIntervalLabels = manhattan[0];
-	public String rootPreviousCommunityCount = manhattan[1];
-	public double intervalSize = 2400;
+	public String rootIntervalLabels = sfc;
+	public String rootPreviousCommunityCount = sfc;
+	public double intervalSize = _4hours;
 	public String pathIntervalLabels = "";
-	public String pathPreviousCommunityCount = "";
 	public SimScenario scenario;
 	public Map<Integer, Integer> currentCommunityIdMap;
 	public Map<String, Integer> currentPreviousCountMap;
@@ -41,12 +44,8 @@ public class InputCommunityInfo {
 			
 			String pathIntervalLabels = this.rootIntervalLabels + fileName;
 			this.pathIntervalLabels = pathIntervalLabels;
-
-			String pathPreviousCommunityCount = this.rootPreviousCommunityCount + fileName;
-			this.pathPreviousCommunityCount = pathPreviousCommunityCount;
 			
 			loadCommunityLabels();
-			loadPreviousCommunityCount();
 			setRouterInfo();
 		}		
 	}
@@ -61,11 +60,7 @@ public class InputCommunityInfo {
 				String pathIntervalLabels = this.rootIntervalLabels + fileName;
 				this.pathIntervalLabels = pathIntervalLabels;
 				
-				String pathPreviousCommunityCount = this.rootPreviousCommunityCount + fileName;
-				this.pathPreviousCommunityCount = pathPreviousCommunityCount;
-				
 				loadCommunityLabels();
-				loadPreviousCommunityCount();
 				setRouterInfo();
 			} 
 		}
@@ -96,25 +91,7 @@ public class InputCommunityInfo {
         this.currentCommunityIdMap = nodeLabelMap;
         this.currentNodesPerCommunity = nodesPerCommunity;
 	}
-	
-	public void loadPreviousCommunityCount() {
-		Map<String, Integer> previousCountMap = new HashMap<>();
-				
-		try (BufferedReader br = new BufferedReader(new FileReader(this.pathPreviousCommunityCount))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(" ");
-                String pair = values[0];
-                int count = Integer.parseInt(values[1]);
-                previousCountMap.put(pair, count);
-            }
-        } catch (IOException e) {
-            System.out.println("File "+this.pathPreviousCommunityCount+" does not exist.");
-        }
-        
-        this.currentPreviousCountMap = previousCountMap;
-	}
-	
+		
 	public void setRouterInfo() {
 		if (Settings.DEF_SETTINGS_FILE.contains("pcrouter")) {
 			scenario.getHosts().forEach(host ->
@@ -128,15 +105,6 @@ public class InputCommunityInfo {
 	        		router.setLabel(label);
 	        		router.setNodesPerCommunity(this.currentNodesPerCommunity);
 	        	}
-	    		
-	    		Map<Integer, Integer> previousCount = new HashMap<>();
-	        	String key = host.getAddress() + "_";
-	        	this.currentPreviousCountMap.forEach((pair, count) -> {
-	        		if (pair.contains(key)) {
-	        			previousCount.put(Integer.valueOf(pair.replace(key, "")), count);
-	        		}
-	        	});
-	        	router.setTimesInCommunityWith(previousCount);
 	        });
 		}
 	}

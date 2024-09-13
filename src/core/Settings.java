@@ -46,6 +46,10 @@ public class Settings {
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/epidemic.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcrouter40.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcrouter20.txt";
+	
+//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/bubblerap.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/epidemic.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/pcrouter4.txt";
 
 	/** 
 	 * Setting to define the file name where all read settings are written
