@@ -10,7 +10,7 @@ import core.Settings;
 import core.SimScenario;
 import routing.DecisionEngineRouter;
 import routing.MessageRouter;
-import routing.periodic_community.PCRouter;
+import routing.periodic_community.PCURouter;
 
 
 public class InputCommunityInfo {
@@ -20,6 +20,8 @@ public class InputCommunityInfo {
 	String manhattan = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
 
 	String sfc = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
+
+	String rt = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/romataxi/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
 	
 	int _4hours = 14400;
 	int _40min = 2400;
@@ -27,17 +29,15 @@ public class InputCommunityInfo {
 
 	public int currentInterval = 0;
 	public double currentThreshold = 1;
-	public String rootIntervalLabels = sfc;
-	public String rootPreviousCommunityCount = sfc;
+	public String rootIntervalLabels = rt;
 	public double intervalSize = _4hours;
 	public String pathIntervalLabels = "";
 	public SimScenario scenario;
 	public Map<Integer, Integer> currentCommunityIdMap;
-	public Map<String, Integer> currentPreviousCountMap;
 	public Map<Integer, Integer> currentNodesPerCommunity;
 	
 	public InputCommunityInfo(SimScenario scenario, double simTime) {
-		if (Settings.DEF_SETTINGS_FILE.contains("pcrouter")) {
+		if (Settings.DEF_SETTINGS_FILE.contains("pcu")) {
 			
 			this.scenario = scenario;
 			String fileName = "interval_X.txt".replace("X", String.valueOf(this.currentInterval));
@@ -51,7 +51,7 @@ public class InputCommunityInfo {
 	}
 	
 	public void intervalChange(double simTime) {
-		if (Settings.DEF_SETTINGS_FILE.contains("pcrouter")) {
+		if (Settings.DEF_SETTINGS_FILE.contains("pcu")) {
 			if (this.currentThreshold + this.intervalSize <= simTime) {
 				this.currentThreshold += this.intervalSize;
 				this.currentInterval += 1;
@@ -93,11 +93,11 @@ public class InputCommunityInfo {
 	}
 		
 	public void setRouterInfo() {
-		if (Settings.DEF_SETTINGS_FILE.contains("pcrouter")) {
+		if (Settings.DEF_SETTINGS_FILE.contains("pcu")) {
 			scenario.getHosts().forEach(host ->
 	        {
         		MessageRouter mRouter = host.getRouter();
-        		PCRouter router = (PCRouter) ((DecisionEngineRouter)mRouter).getDecisionEngine();
+        		PCURouter router = (PCURouter) ((DecisionEngineRouter)mRouter).getDecisionEngine();
         		router.setMeanNoderPerCommunity(scenario.getHosts().size() / this.currentNodesPerCommunity.size());
 	    		router.clearCounters();
 	    		if (this.currentCommunityIdMap.containsKey(host.getAddress())) {

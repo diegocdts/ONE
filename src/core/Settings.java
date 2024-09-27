@@ -38,22 +38,26 @@ public class Settings {
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/mobility_generator.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcrouter40.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcrouter20.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcu.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/mobility_generator.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcrouter40.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcrouter20.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcu.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_sfc/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_sfc/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/pcrouter4.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/pcu.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcrouter4.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu.txt";
+	
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra/helsinki.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra/manhattan.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra/rt.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra/sfc.txt";
+	
 	/** 
 	 * Setting to define the file name where all read settings are written
 	 * ({@value}. If set to an empty string, standard output is used. 
