@@ -25,12 +25,11 @@ public class InputCommunityInfo {
 	
 	int _4hours = 14400;
 	int _40min = 2400;
-	int _20min = 1200;
 
 	public int currentInterval = 0;
 	public double currentThreshold = 1;
-	public String rootIntervalLabels = rt;
-	public double intervalSize = _4hours;
+	public String rootIntervalLabels = helsinki;
+	public double intervalSize = _40min;
 	public String pathIntervalLabels = "";
 	public SimScenario scenario;
 	public Map<Integer, Integer> currentCommunityIdMap;
@@ -98,7 +97,6 @@ public class InputCommunityInfo {
 	        {
         		MessageRouter mRouter = host.getRouter();
         		PCURouter router = (PCURouter) ((DecisionEngineRouter)mRouter).getDecisionEngine();
-        		router.setMeanNoderPerCommunity(scenario.getHosts().size() / this.currentNodesPerCommunity.size());
 	    		router.clearCounters();
 	    		if (this.currentCommunityIdMap.containsKey(host.getAddress())) {
 	        		int label = this.currentCommunityIdMap.get(host.getAddress());

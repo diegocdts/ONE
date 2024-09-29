@@ -1,8 +1,5 @@
 package routing.periodic_community;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import core.Connection;
 import core.DTNHost;
 import core.Message;
@@ -11,23 +8,15 @@ import routing.DecisionEngineRouter;
 import routing.MessageRouter;
 import routing.RoutingDecisionEngine;
 
-public class PCURouter implements RoutingDecisionEngine{
-	
-	private int label = 5000;
-	private Map<Integer, Integer> nodesPerCommunity = new HashMap<Integer, Integer>(); //key: community label, value: number of nodes inside it
-	private double meanNodesPerCommunity = -1;
+public class PCURouter extends PCU implements RoutingDecisionEngine{
 
-	private Map<Integer, Integer> contactsWithCommunity = new HashMap<Integer, Integer>();
-	private Map<Integer, Integer> interCommunityContact = new HashMap<Integer, Integer>();
-	private Map<Integer, Integer> intraCommunityContact = new HashMap<Integer, Integer>();
-	private Map<String, Integer> deliveredMessages = new HashMap<String, Integer>();
+	public PCURouter(Settings settings) {
+		super(settings);
+	}
 	
-	private int intraContacts = 0;
-	private int interContacts = 0;
-
-	public PCURouter(Settings settings) {}
-	
-	public PCURouter(PCURouter pcRouter) {}
+	public PCURouter(PCURouter pcuRouter) {
+		super(pcuRouter);
+	}
 	
 	@Override
 	public void connectionUp(DTNHost thisHost, DTNHost peer) {
@@ -77,68 +66,43 @@ public class PCURouter implements RoutingDecisionEngine{
 		
 		if(mRouter.hasMessage(m.getId()) || deliveredMessages.containsKey(m.getId()) || otherRouter.deliveredMessages.containsKey(m.getId())) 
 			return false;
-				
-		//===============================================================================================================
-		int thisIntraContactsWithDest = intraCommunityContact.getOrDefault(destiny.getAddress(), 0);
-		int otherIntraContactsWithDest = otherRouter.intraCommunityContact.getOrDefault(destiny.getAddress(), 0);
-				
-		//===============================================================================================================
-		int thisInterContactsWithDest = interCommunityContact.getOrDefault(destiny.getAddress(), 0);
-		int otherInterContactsWithDest = otherRouter.interCommunityContact.getOrDefault(destiny.getAddress(), 0);
-		
-		//===============================================================================================================
-		int thisContactsWithDestComm = contactsWithCommunity.getOrDefault(destinyRouter.getLabel(), 0);
-		int otherContactsWithDestComm = otherRouter.contactsWithCommunity.getOrDefault(destinyRouter.getLabel(), 0);
-		
+
 		if (this.getLabel() == destinyRouter.getLabel()) {
 			if (otherRouter.getLabel() == destinyRouter.getLabel()) {
+				int thisIntraContactsWithDest = intraCommunityContact.getOrDefault(destiny.getAddress(), 0);
+				int otherIntraContactsWithDest = otherRouter.intraCommunityContact.getOrDefault(destiny.getAddress(), 0);
+				
 				boolean cond1 = otherIntraContactsWithDest > thisIntraContactsWithDest;
 				boolean cond2 = otherRouter.intraContacts > this.intraContacts;
 				boolean cond3 = otherRouter.intraCommunityContact.size() > intraCommunityContact.size();
-				if (cond1 && cond2	&& cond3) {
-					return true;
-				}
-				else if((cond1 && cond2) || (cond1 && cond3) || (cond2 && cond3)) {
-					return true;
-				}
-				else if (cond1 || cond2 || cond3) {
+				int check = (cond1? 1 : 0) + (cond2? 1 : 0) + (cond3? 1 : 0);
+				
+				if (check >= 1) {
 					return true;
 				}
 			}
 		}
-		else {
-			boolean cond1 = otherRouter.interContacts > this.interContacts;
-			boolean cond2 = otherRouter.contactsWithCommunity.size() > this.contactsWithCommunity.size();
-			boolean cond3 = otherContactsWithDestComm > thisContactsWithDestComm;
-			boolean cond4 = otherInterContactsWithDest > thisInterContactsWithDest;
-			boolean cond5 = otherRouter.interCommunityContact.size() > interCommunityContact.size();
-			
+		else {			
 			if (otherRouter.getLabel() == destinyRouter.getLabel()) {
 				return true;
 			}
-			else if (cond1 && cond2 && cond3 && cond4 && cond5) {
-				return true;
-			}
-			else if ((cond1 && cond2 && cond3 && cond4) 
-					|| (cond1 && cond2 && cond3 && cond5) || (cond1 && cond2 && cond4 && cond5)
-					|| (cond1 && cond3 && cond4 && cond5) || (cond2 && cond3 && cond4 && cond5)) {
-				return true;
-			}
-			else if ((cond1 && cond2 && cond3) 
-					|| (cond1 && cond2 && cond4) || (cond1 && cond2 && cond5) 
-					|| (cond1 && cond3 && cond4) || (cond1 && cond3 && cond5) 
-					|| (cond1 && cond4 && cond5) || (cond2 && cond3 && cond4)
-					|| (cond2 && cond3 && cond5) || (cond2 && cond4 && cond5)
-					|| (cond3 && cond4 && cond5)) {
-				return true;
-			}
-			else if((cond1 && cond2) 
-					|| (cond1 && cond3) || (cond1 && cond4) 
-					|| (cond1 && cond5) || (cond2 && cond3) 
-					|| (cond2 && cond4) || (cond2 && cond5) 
-					|| (cond3 && cond4) || (cond3 && cond5)
-					|| (cond4 && cond5)) {
-				return true;
+			else {
+				int thisInterContactsWithDest = interCommunityContact.getOrDefault(destiny.getAddress(), 0);
+				int otherInterContactsWithDest = otherRouter.interCommunityContact.getOrDefault(destiny.getAddress(), 0);
+				
+				int thisContactsWithDestComm = contactsWithCommunity.getOrDefault(destinyRouter.getLabel(), 0);
+				int otherContactsWithDestComm = otherRouter.contactsWithCommunity.getOrDefault(destinyRouter.getLabel(), 0);
+				
+				boolean cond1 = otherRouter.interContacts > this.interContacts;
+				boolean cond2 = otherRouter.contactsWithCommunity.size() > this.contactsWithCommunity.size();
+				boolean cond3 = otherContactsWithDestComm > thisContactsWithDestComm;
+				boolean cond4 = otherInterContactsWithDest > thisInterContactsWithDest;
+				boolean cond5 = otherRouter.interCommunityContact.size() > interCommunityContact.size();
+				int check = (cond1? 1 : 0) + (cond2? 1 : 0) + (cond3? 1 : 0) + (cond4? 1 : 0) + (cond5? 1 : 0);
+				
+				if (check >= 2) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -164,54 +128,5 @@ public class PCURouter implements RoutingDecisionEngine{
 		assert router instanceof DecisionEngineRouter : "This router only works with other routers of same type";
 		
 		return (PCURouter) ((DecisionEngineRouter)router).getDecisionEngine();
-	}
-	
-	private void updateContacts(DTNHost thisHost, DTNHost peer) {
-		PCURouter thisRouter = getDecisionEngineFromHost(thisHost);
-		PCURouter peerRouter = getDecisionEngineFromHost(peer);
-					
-		if (thisRouter.getLabel() != peerRouter.getLabel()) {
-			contactsWithCommunity.merge(peerRouter.getLabel(), 1, Integer::sum);
-			interCommunityContact.merge(peer.getAddress(), 1, Integer::sum);
-			interContacts += 1;
-		}
-		else {
-			intraCommunityContact.merge(peer.getAddress(), 1, Integer::sum);
-			intraContacts += 1;
-		}
-	}
-	
-	public void updateBuffer(PCURouter router) {
-		router.deliveredMessages.putAll(deliveredMessages);
-	}
-
-	public int getLabel() {
-		return label;
-	}
-	
-
-	public void setLabel(int communityLabel) {
-		this.label = communityLabel;
-	}
-
-	public Map<Integer, Integer> getNodesPerCommunity() {
-		return nodesPerCommunity;
-	}
-
-	public void setNodesPerCommunity(Map<Integer, Integer> nodesPerCommunity) {
-		this.nodesPerCommunity = new HashMap<Integer, Integer>();
-		this.nodesPerCommunity.putAll(nodesPerCommunity);
-	}
-	
-	public void setMeanNoderPerCommunity(double meanNoderPerCommunity) {
-		this.meanNodesPerCommunity = meanNoderPerCommunity;
-	}
-	
-	public void clearCounters() {
-		contactsWithCommunity.clear();
-		interCommunityContact.clear();
-		intraCommunityContact.clear();
-		intraContacts = 0;
-		interContacts = 0;	
 	}
 }
