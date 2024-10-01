@@ -20,7 +20,7 @@ public class PCURouter extends PCU implements RoutingDecisionEngine{
 	
 	@Override
 	public void connectionUp(DTNHost thisHost, DTNHost peer) {
-		PCURouter otherRouter = getDecisionEngineFromHost(peer);
+		PCU otherRouter = getDecisionEngineFromHost(peer);
 		updateContacts(thisHost, peer);
 		updateBuffer(otherRouter);
 		otherRouter.updateContacts(peer, thisHost);
@@ -41,7 +41,7 @@ public class PCURouter extends PCU implements RoutingDecisionEngine{
 	@Override
 	public boolean isFinalDest(Message m, DTNHost aHost) {
 		if (m.getTo() == aHost) {
-			PCURouter router = this.getDecisionEngineFromHost(aHost);
+			PCU router = this.getDecisionEngineFromHost(aHost);
 			router.deliveredMessages.put(m.getId(), 0);
 			this.deliveredMessages.put(m.getId(), 0);
 		}
@@ -58,8 +58,8 @@ public class PCURouter extends PCU implements RoutingDecisionEngine{
 	public boolean shouldSendMessageToHost(Message m, DTNHost otherHost) {
 
 		DTNHost destiny = m.getTo();
-		PCURouter destinyRouter = this.getDecisionEngineFromHost(destiny);
-		PCURouter otherRouter = this.getDecisionEngineFromHost(otherHost);
+		PCU destinyRouter = this.getDecisionEngineFromHost(destiny);
+		PCU otherRouter = this.getDecisionEngineFromHost(otherHost);
 		MessageRouter mRouter = otherHost.getRouter();
 		
 		if(m.getTo() == otherHost && !otherRouter.deliveredMessages.containsKey(m.getId())) return true;

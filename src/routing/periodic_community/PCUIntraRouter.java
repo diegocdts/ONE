@@ -1,8 +1,5 @@
 package routing.periodic_community;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import core.Connection;
 import core.DTNHost;
 import core.Message;
@@ -32,7 +29,7 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	
 	@Override
 	public boolean newMessage(Message m) {
-		System.out.println(m.getFrom() + " " +m.getTo());
+		System.out.println(m.getFrom() + " " + m.getTo() + " " + m.getId());
 		return true;
 	}
 	
@@ -51,8 +48,8 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	public boolean shouldSendMessageToHost(Message m, DTNHost otherHost) {
 
 		DTNHost destiny = m.getTo();
-		PCUIntraRouter destinyRouter = this.getDecisionEngineFromHost(destiny);
-		PCUIntraRouter otherRouter = this.getDecisionEngineFromHost(otherHost);
+		PCU destinyRouter = this.getDecisionEngineFromHost(destiny);
+		PCU otherRouter = this.getDecisionEngineFromHost(otherHost);
 		MessageRouter mRouter = otherHost.getRouter();
 		
 		if(m.getTo() == otherHost) return true;
@@ -61,9 +58,8 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 				
 		//===============================================================================================================
 
-		if (this.getLabel() == destinyRouter.getLabel() || otherRouter.getLabel() == destinyRouter.getLabel()) {
+		if (otherRouter.getLabel() == destinyRouter.getLabel()) {
 			return true;
-			
 		}
 		return false;
 	}

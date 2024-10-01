@@ -116,12 +116,6 @@ public class InputCommunityInfo {
 	}
 	
 	public void triggerIntraCommunityMsgEvent() {
-		for (List<Integer> community : currentNodesPerCommunity.values()) {
-			System.out.println(community);
-			int from = Collections.min(community);
-			List<Integer> toList = new ArrayList<Integer>(community);
-			toList.remove(Integer.valueOf(from));
-			this.intraCommunityMsgEvent.setNextMsgEventInfo(from, toList, intervalSize);
-		}
+		this.intraCommunityMsgEvent.setNextMsgEventInfo(currentNodesPerCommunity, intervalSize);
 	}
 }

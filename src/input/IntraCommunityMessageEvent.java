@@ -1,23 +1,23 @@
 package input;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import core.Settings;
 
 
 public class IntraCommunityMessageEvent extends MessageEventGenerator {
-	private int from;
-	private List<Integer> toList;
+	private Map<Integer, List<Integer>> currentNodesPerCommunity;
 	private int nextEventTimeDiff;
 	
 	public IntraCommunityMessageEvent(Settings s) {
 		super(s);
 	}
 	
-	public void setNextMsgEventInfo(int from, List<Integer> toList, int nextEventTimeDiff) {
-		this.from = from;
-		this.toList = toList;
-		this.nextEventsTime += 1;
+	public void setNextMsgEventInfo(Map<Integer, List<Integer>> currentNodesPerCommunity, int nextEventTimeDiff) {
+		this.currentNodesPerCommunity = currentNodesPerCommunity;
+		this.nextEventsTime += 0.1;
 		this.nextEventTimeDiff = nextEventTimeDiff;
 	}
 	
@@ -27,15 +27,21 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 	 */
 	public ExternalEvent nextEvent() {
 		int responseSize = 0; /* no responses requested */
-				
-		if (this.toList.size() == 0) {
-			this.nextEventsTime += nextEventTimeDiff;
-			return new ExternalEvent(this.nextEventsTime);
-		}
 		
-		int to = toList.remove(0);
+		Map.Entry<Integer, List<Integer>> labelNodes = this.currentNodesPerCommunity.entrySet().iterator().next();
+		if(labelNodes.getValue().size() == 1) {
+			this.currentNodesPerCommunity.remove(labelNodes.getKey());
+			if (this.currentNodesPerCommunity.size() == 0) {
+				this.nextEventsTime += nextEventTimeDiff;
+				return new ExternalEvent(this.nextEventsTime);
+			}
+			labelNodes = this.currentNodesPerCommunity.entrySet().iterator().next();
+		}
+		Collections.sort(labelNodes.getValue());
+		int from = Collections.min(labelNodes.getValue());
+		int to = labelNodes.getValue().remove(1);
 		String id = getID();
-				
+		
 		MessageCreateEvent mce = new MessageCreateEvent(from, to, id, 
 				drawMessageSize(), responseSize, this.nextEventsTime);
 		
