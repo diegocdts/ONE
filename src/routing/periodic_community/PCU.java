@@ -48,7 +48,7 @@ public abstract class PCU{
 		}
 	}	
 	
-	public void updateBuffer(PCURouter router) {
+	public void updateBuffer(PCU router) {
 		router.deliveredMessages.putAll(deliveredMessages);
 	}
 	
