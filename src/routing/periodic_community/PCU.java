@@ -1,6 +1,7 @@
 package routing.periodic_community;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import core.DTNHost;
@@ -11,7 +12,7 @@ import routing.MessageRouter;
 public abstract class PCU{
 	
 	protected int label = 5000;
-	protected Map<Integer, Integer> nodesPerCommunity = new HashMap<Integer, Integer>(); //key: community label, value: number of nodes inside it
+	protected Map<Integer, List<Integer>> nodesPerCommunity = new HashMap<Integer, List<Integer>>();
 
 	protected Map<Integer, Integer> contactsWithCommunity = new HashMap<Integer, Integer>();
 	protected Map<Integer, Integer> interCommunityContact = new HashMap<Integer, Integer>();
@@ -59,12 +60,12 @@ public abstract class PCU{
 		this.label = communityLabel;
 	}
 
-	public Map<Integer, Integer> getNodesPerCommunity() {
+	public Map<Integer, List<Integer>> getNodesPerCommunity() {
 		return nodesPerCommunity;
 	}
 
-	public void setNodesPerCommunity(Map<Integer, Integer> nodesPerCommunity) {
-		this.nodesPerCommunity = new HashMap<Integer, Integer>();
+	public void setNodesPerCommunity(Map<Integer, List<Integer>> nodesPerCommunity) {
+		this.nodesPerCommunity = new HashMap<Integer, List<Integer>>();
 		this.nodesPerCommunity.putAll(nodesPerCommunity);
 	}
 	

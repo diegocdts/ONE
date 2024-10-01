@@ -3,6 +3,9 @@ package input;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +13,7 @@ import core.Settings;
 import core.SimScenario;
 import routing.DecisionEngineRouter;
 import routing.MessageRouter;
-import routing.periodic_community.PCURouter;
+import routing.periodic_community.PCU;
 
 
 public class InputCommunityInfo {
@@ -29,11 +32,12 @@ public class InputCommunityInfo {
 	public int currentInterval = 0;
 	public double currentThreshold = 1;
 	public String rootIntervalLabels = helsinki;
-	public double intervalSize = _40min;
+	public int intervalSize = rootIntervalLabels == helsinki || rootIntervalLabels == manhattan? _40min : _4hours;
 	public String pathIntervalLabels = "";
 	public SimScenario scenario;
 	public Map<Integer, Integer> currentCommunityIdMap;
-	public Map<Integer, Integer> currentNodesPerCommunity;
+	public Map<Integer, List<Integer>> currentNodesPerCommunity;
+	public IntraCommunityMessageEvent intraCommunityMsgEvent;
 	
 	public InputCommunityInfo(SimScenario scenario, double simTime) {
 		if (Settings.DEF_SETTINGS_FILE.contains("pcu")) {
@@ -44,8 +48,13 @@ public class InputCommunityInfo {
 			String pathIntervalLabels = this.rootIntervalLabels + fileName;
 			this.pathIntervalLabels = pathIntervalLabels;
 			
+			if(scenario.getExternalEvents().get(0) instanceof IntraCommunityMessageEvent) {
+				this.intraCommunityMsgEvent = (IntraCommunityMessageEvent) scenario.getExternalEvents().get(0);
+			}
+			
 			loadCommunityLabels();
 			setRouterInfo();
+			triggerIntraCommunityMsgEvent();
 		}		
 	}
 	
@@ -61,13 +70,14 @@ public class InputCommunityInfo {
 				
 				loadCommunityLabels();
 				setRouterInfo();
+				triggerIntraCommunityMsgEvent();
 			} 
 		}
 	}
 	
 	public void loadCommunityLabels() {
         Map<Integer, Integer> nodeLabelMap = new HashMap<>();
-        Map<Integer, Integer> nodesPerCommunity = new HashMap<>();
+        Map<Integer, List<Integer>> nodesPerCommunity = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(this.pathIntervalLabels))) {
             String line;
@@ -75,12 +85,10 @@ public class InputCommunityInfo {
                 String[] values = line.split(" ");
                 int label = Integer.parseInt(values[0]);
                 int node = Integer.valueOf(values[1]);
-                if (nodesPerCommunity.containsKey(label)) {
-                	nodesPerCommunity.put(label, nodesPerCommunity.get(label) + 1);
+                if (!nodesPerCommunity.containsKey(label)) {
+                	nodesPerCommunity.put(label, new ArrayList<Integer>());
                 }
-                else {
-                	nodesPerCommunity.put(label, 1);
-                }
+                nodesPerCommunity.get(label).add(node);
                 nodeLabelMap.put(node, label);
             }
         } catch (IOException e) {
@@ -96,7 +104,7 @@ public class InputCommunityInfo {
 			scenario.getHosts().forEach(host ->
 	        {
         		MessageRouter mRouter = host.getRouter();
-        		PCURouter router = (PCURouter) ((DecisionEngineRouter)mRouter).getDecisionEngine();
+        		PCU router = (PCU) ((DecisionEngineRouter)mRouter).getDecisionEngine();
 	    		router.clearCounters();
 	    		if (this.currentCommunityIdMap.containsKey(host.getAddress())) {
 	        		int label = this.currentCommunityIdMap.get(host.getAddress());
@@ -104,6 +112,16 @@ public class InputCommunityInfo {
 	        		router.setNodesPerCommunity(this.currentNodesPerCommunity);
 	        	}
 	        });
+		}
+	}
+	
+	public void triggerIntraCommunityMsgEvent() {
+		for (List<Integer> community : currentNodesPerCommunity.values()) {
+			System.out.println(community);
+			int from = Collections.min(community);
+			List<Integer> toList = new ArrayList<Integer>(community);
+			toList.remove(Integer.valueOf(from));
+			this.intraCommunityMsgEvent.setNextMsgEventInfo(from, toList, intervalSize);
 		}
 	}
 }
