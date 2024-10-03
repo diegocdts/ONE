@@ -360,4 +360,8 @@ public class Message implements Comparable<Message> {
 		this.appID = appID;
 	}
 	
+	public void setTo(DTNHost to) {
+		this.to = to;
+	}
+
 }

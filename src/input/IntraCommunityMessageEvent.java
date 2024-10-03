@@ -1,8 +1,7 @@
 package input;
 
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import core.Settings;
 import core.SimClock;
@@ -11,45 +10,54 @@ import core.SimClock;
 public class IntraCommunityMessageEvent extends MessageEventGenerator {
 	private int from;
 	private int to;
-	public Map<String, Boolean> sentFromTo = new HashMap<String, Boolean>();
 	
+	private List<Integer> firstFroms = new ArrayList<Integer>();
+	public List<String> pair = new ArrayList<String>();
+
 	
 	public IntraCommunityMessageEvent(Settings s) {
 		super(s);
 	}
 	
-	public void setNextMsgEventInfo(int from, int to) {
-		this.from = from;
-		this.to = to;
-		this.nextEventsTime = SimClock.getTime() + 0.01;
+	public void setFirstFroms(List<Integer> firstFroms) {
+		this.firstFroms = firstFroms;
+	}
+	
+	public boolean isThisAFirstFromCandidate(int hostAddress) {
+		return this.firstFroms.indexOf(hostAddress) > 0;
+	}
+	
+	public void setFirstMsgEventInfo(int from, int to) {
+		int indexFrom = this.firstFroms.indexOf(from);
+		if (indexFrom > 0) {
+			this.from = this.firstFroms.remove(indexFrom);
+			this.to = to;
+			this.nextEventsTime = SimClock.getTime() + 0.01;
+		}
 	}
 	
 	/** 
 	 * Returns the next message creation event
 	 * @see input.EventQueue#nextEvent()
 	 */
-	public ExternalEvent nextEvent() {		
-		String pair = from+"_"+to;
+	public ExternalEvent nextEvent() {
+		int responseSize = 0;
+		String id = getID();
 		
-		boolean alreadySentFromTo = this.sentFromTo.getOrDefault(pair, false);
+		String fromTo = from + "_" + to;
 		
-		if (!alreadySentFromTo) {
-			int responseSize = 0;
-			
-			String id = getID();
-			
-			MessageCreateEvent mce = new MessageCreateEvent(from, to, id, 
+		if (pair.contains(fromTo)) {
+			this.nextEventsTime += drawNextEventTimeDiff();
+			return new ExternalEvent(this.nextEventsTime);
+		}
+		
+		MessageCreateEvent mce = new MessageCreateEvent(from, to, id, 
 					drawMessageSize(), responseSize, this.nextEventsTime);
 			
-			this.nextEventsTime += drawNextEventTimeDiff();
-			
-			this.sentFromTo.put(pair, true);
-			
-			return mce;
-		}
 		this.nextEventsTime += drawNextEventTimeDiff();
-		
-		return new ExternalEvent(this.nextEventsTime);
+		pair.add(fromTo);
+			
+		return mce;
 	}
 
 }

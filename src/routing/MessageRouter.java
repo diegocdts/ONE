@@ -447,6 +447,17 @@ public abstract class MessageRouter {
 	}
 	
 	/**
+	 * Creates a new message to the router.
+	 * @param m The message to create
+	 * @return True if the creation succeeded, false if not (e.g.
+	 * the message was too big for the buffer)
+	 */
+	public boolean createCopyMessage(Message m) {
+		addToMessages(m, true);		
+		return true;
+	}
+	
+	/**
 	 * Deletes a message from the buffer and informs message listeners
 	 * about the event
 	 * @param id Identifier of the message to delete

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import core.DTNHost;
+import core.Message;
 import core.Settings;
 import input.IntraCommunityMessageEvent;
 import routing.DecisionEngineRouter;
@@ -23,6 +24,7 @@ public abstract class PCU{
 	protected int intraContacts = 0;
 	protected int interContacts = 0;
 	protected IntraCommunityMessageEvent msgEvent;
+	public Message msgCopy;
 
 	public PCU(Settings settings) {}
 	
