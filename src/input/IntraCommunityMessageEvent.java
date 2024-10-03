@@ -1,63 +1,55 @@
 package input;
 
-import java.util.Collections;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import core.Settings;
+import core.SimClock;
 
 
 public class IntraCommunityMessageEvent extends MessageEventGenerator {
-	private Map<Integer, List<Integer>> currentNodesPerCommunity;
-	private Map<Integer, Integer> sizeCommunities = new HashMap<Integer, Integer>();
-	private int nextEventTimeDiff;
+	private int from;
+	private int to;
+	public Map<String, Boolean> sentFromTo = new HashMap<String, Boolean>();
+	
 	
 	public IntraCommunityMessageEvent(Settings s) {
 		super(s);
 	}
 	
-	public void setNextMsgEventInfo(Map<Integer, List<Integer>> currentNodesPerCommunity, int nextEventTimeDiff) {
-		this.currentNodesPerCommunity = currentNodesPerCommunity;
-		this.nextEventsTime += 0.1;
-		this.nextEventTimeDiff = nextEventTimeDiff;
-		for (Map.Entry<Integer, List<Integer>> labelNodes : this.currentNodesPerCommunity.entrySet()) {
-			this.sizeCommunities.put(labelNodes.getKey(), labelNodes.getValue().size());			
-		}
+	public void setNextMsgEventInfo(int from, int to) {
+		this.from = from;
+		this.to = to;
+		this.nextEventsTime = SimClock.getTime() + 0.01;
 	}
 	
 	/** 
 	 * Returns the next message creation event
 	 * @see input.EventQueue#nextEvent()
 	 */
-	public ExternalEvent nextEvent() {
-		int responseSize = 0; /* no responses requested */
+	public ExternalEvent nextEvent() {		
+		String pair = from+"_"+to;
 		
-		Map.Entry<Integer, List<Integer>> labelNodes = this.currentNodesPerCommunity.entrySet().iterator().next();
-		if(labelNodes.getValue().size() <= 1) {
-			this.currentNodesPerCommunity.remove(labelNodes.getKey());
-			if (this.currentNodesPerCommunity.size() == 0) {
-				this.nextEventsTime += nextEventTimeDiff;
-				return new ExternalEvent(this.nextEventsTime);
-			}
-			labelNodes = this.currentNodesPerCommunity.entrySet().iterator().next();
+		boolean alreadySentFromTo = this.sentFromTo.getOrDefault(pair, false);
+		
+		if (!alreadySentFromTo) {
+			int responseSize = 0;
+			
+			String id = getID();
+			
+			MessageCreateEvent mce = new MessageCreateEvent(from, to, id, 
+					drawMessageSize(), responseSize, this.nextEventsTime);
+			
+			this.nextEventsTime += drawNextEventTimeDiff();
+			
+			this.sentFromTo.put(pair, true);
+			
+			return mce;
 		}
-		String id = getID();
+		this.nextEventsTime += drawNextEventTimeDiff();
 		
-		Random random = new Random();
-		int indexFrom = random.nextInt(labelNodes.getValue().size());
-		int from = labelNodes.getValue().remove(indexFrom);
-
-		int indexTo = random.nextInt(labelNodes.getValue().size());
-		int to = labelNodes.getValue().remove(indexTo);
-		
-		labelNodes.getValue().add(from);
-		
-		MessageCreateEvent mce = new MessageCreateEvent(from, to, id, 
-				drawMessageSize(), responseSize, this.nextEventsTime);
-		
-		return mce;
+		return new ExternalEvent(this.nextEventsTime);
 	}
 
 }

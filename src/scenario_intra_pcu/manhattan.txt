@@ -3,25 +3,19 @@ Scenario.updateInterval = 0.5
 Scenario.endTime = 7200
 
 Events.nrof = 1
-Events1.class = MessageEventGenerator
-Events1.interval = 1, 3
-Events1.time = 0, 3600
+Events1.class = IntraCommunityMessageEvent
+Events1.interval = 1
 Events1.size = 25k, 50k
 Events1.prefix = M
 
 Events1.hosts = 0, 399
-Scenario.name = PCU_ttl_30
-Group.msgTtl = 30
-Scenario.name = PCU_ttl_40
+Events1.tohosts = 0, 399
+Scenario.name = manhattan
 Group.msgTtl = 40
-Scenario.name = PCU_ttl_50
-Group.msgTtl = 50
-Scenario.name = PCU_ttl_60
-Group.msgTtl = 60
 
 Report.nrofReports = 4 
 Report.warmup = 0
-Report.reportDir = reports/manhattan/PCU/
+Report.reportDir = reports/intra/manhattan/
 Report.report1 = EventLogReport
 Report.report2 = CreatedMessagesReport
 Report.report3 = DeliveredMessagesReport
@@ -36,7 +30,7 @@ Scenario.nrofHostGroups = 1
 Group.movementModel = ShortestPathMapBasedMovement
 
 Group.router = DecisionEngineRouter
-DecisionEngineRouter.decisionEngine = periodic_community.PCURouter
+DecisionEngineRouter.decisionEngine = periodic_community.PCUIntraRouter
 
 
 Group.nrofInterfaces = 1

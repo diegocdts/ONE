@@ -33,7 +33,7 @@ public class Settings {
 	/** properties object where the setting files are read into */
 	protected static Properties props;
 	/** file name of the default settings file ({@value}) */
-	public static final String DEF_SETTINGS_FILE ="default_settings.txt";
+//	public static final String DEF_SETTINGS_FILE ="default_settings.txt";
 
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/mobility_generator.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/bubblerap.txt";
@@ -53,10 +53,10 @@ public class Settings {
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/epidemic.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu.txt";
 	
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra/helsinki.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra/manhattan.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra/rt.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra/sfc.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki.txt";
+	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/manhattan.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc.txt";
 	
 	/** 
 	 * Setting to define the file name where all read settings are written

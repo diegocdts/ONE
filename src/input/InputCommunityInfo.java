@@ -31,7 +31,7 @@ public class InputCommunityInfo {
 
 	public int currentInterval = 0;
 	public double currentThreshold = 1;
-	public String rootIntervalLabels = helsinki;
+	public String rootIntervalLabels = manhattan;
 	public int intervalSize = rootIntervalLabels == helsinki || rootIntervalLabels == manhattan? _40min : _4hours;
 	public String pathIntervalLabels = "";
 	public SimScenario scenario;
