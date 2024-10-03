@@ -19,7 +19,11 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	}
 	
 	@Override
-	public void connectionUp(DTNHost thisHost, DTNHost peer) {}
+	public void connectionUp(DTNHost thisHost, DTNHost peer) {
+		PCU otherRouter = getDecisionEngineFromHost(peer);
+		updateContacts(thisHost, peer);
+		otherRouter.updateContacts(peer, thisHost);
+	}
 	
 	@Override
 	public void connectionDown(DTNHost thisHost, DTNHost peer) {}
@@ -59,7 +63,34 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 		//===============================================================================================================
 
 		if (otherRouter.getLabel() == destinyRouter.getLabel()) {
-			return true;
+			int thisIntraContactsWithDest = intraCommunityContact.getOrDefault(destiny.getAddress(), 0);
+			int otherIntraContactsWithDest = otherRouter.intraCommunityContact.getOrDefault(destiny.getAddress(), 0);
+			
+			boolean cond1 = otherIntraContactsWithDest > thisIntraContactsWithDest;
+			boolean cond2 = otherRouter.intraContacts > this.intraContacts;
+			boolean cond3 = otherRouter.intraCommunityContact.size() > intraCommunityContact.size();
+			int check = (cond1? 1 : 0) + (cond2? 1 : 0) + (cond3? 1 : 0);
+			
+			if (check >= 1) {
+				return true;
+			}
+		}
+		else if(this.getLabel() == destinyRouter.getLabel()){
+			int thisInterContactsWithDest = interCommunityContact.getOrDefault(destiny.getAddress(), 0);
+			int otherInterContactsWithDest = otherRouter.interCommunityContact.getOrDefault(destiny.getAddress(), 0);
+			
+			int otherContactsWithDestComm = otherRouter.contactsWithCommunity.getOrDefault(destinyRouter.getLabel(), 0);
+			
+			boolean cond1 = otherRouter.interContacts > this.interContacts;
+			boolean cond2 = otherRouter.contactsWithCommunity.size() > this.contactsWithCommunity.size();
+			boolean cond3 = otherContactsWithDestComm > this.intraContacts;
+			boolean cond4 = otherInterContactsWithDest > thisInterContactsWithDest;
+			boolean cond5 = otherRouter.interCommunityContact.size() > interCommunityContact.size();
+			int check = (cond1? 1 : 0) + (cond2? 1 : 0) + (cond3? 1 : 0) + (cond4? 1 : 0) + (cond5? 1 : 0);
+			
+			if (check >= 2) {
+				return true;
+			}
 		}
 		return false;
 	}

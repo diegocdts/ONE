@@ -1,14 +1,17 @@
 package input;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import core.Settings;
 
 
 public class IntraCommunityMessageEvent extends MessageEventGenerator {
 	private Map<Integer, List<Integer>> currentNodesPerCommunity;
+	private Map<Integer, Integer> sizeCommunities = new HashMap<Integer, Integer>();
 	private int nextEventTimeDiff;
 	
 	public IntraCommunityMessageEvent(Settings s) {
@@ -19,6 +22,9 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 		this.currentNodesPerCommunity = currentNodesPerCommunity;
 		this.nextEventsTime += 0.1;
 		this.nextEventTimeDiff = nextEventTimeDiff;
+		for (Map.Entry<Integer, List<Integer>> labelNodes : this.currentNodesPerCommunity.entrySet()) {
+			this.sizeCommunities.put(labelNodes.getKey(), labelNodes.getValue().size());			
+		}
 	}
 	
 	/** 
@@ -29,7 +35,7 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 		int responseSize = 0; /* no responses requested */
 		
 		Map.Entry<Integer, List<Integer>> labelNodes = this.currentNodesPerCommunity.entrySet().iterator().next();
-		if(labelNodes.getValue().size() == 1) {
+		if(labelNodes.getValue().size() <= 1) {
 			this.currentNodesPerCommunity.remove(labelNodes.getKey());
 			if (this.currentNodesPerCommunity.size() == 0) {
 				this.nextEventsTime += nextEventTimeDiff;
@@ -37,10 +43,16 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 			}
 			labelNodes = this.currentNodesPerCommunity.entrySet().iterator().next();
 		}
-		Collections.sort(labelNodes.getValue());
-		int from = Collections.min(labelNodes.getValue());
-		int to = labelNodes.getValue().remove(1);
 		String id = getID();
+		
+		Random random = new Random();
+		int indexFrom = random.nextInt(labelNodes.getValue().size());
+		int from = labelNodes.getValue().remove(indexFrom);
+
+		int indexTo = random.nextInt(labelNodes.getValue().size());
+		int to = labelNodes.getValue().remove(indexTo);
+		
+		labelNodes.getValue().add(from);
 		
 		MessageCreateEvent mce = new MessageCreateEvent(from, to, id, 
 				drawMessageSize(), responseSize, this.nextEventsTime);
