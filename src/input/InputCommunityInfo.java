@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +30,7 @@ public class InputCommunityInfo {
 
 	public int currentInterval = 0;
 	public double currentThreshold = 1;
-	public String rootIntervalLabels = manhattan;
+	public String rootIntervalLabels = helsinki;
 	public int intervalSize = rootIntervalLabels == helsinki || rootIntervalLabels == manhattan? _40min : _4hours;
 	public String pathIntervalLabels = "";
 	public SimScenario scenario;
@@ -54,7 +53,6 @@ public class InputCommunityInfo {
 			
 			loadCommunityLabels();
 			setRouterInfo();
-			triggerIntraCommunityMsgEvent();
 		}		
 	}
 	
@@ -70,7 +68,6 @@ public class InputCommunityInfo {
 				
 				loadCommunityLabels();
 				setRouterInfo();
-				triggerIntraCommunityMsgEvent();
 			} 
 		}
 	}
@@ -111,11 +108,11 @@ public class InputCommunityInfo {
 	        		router.setLabel(label);
 	        		router.setNodesPerCommunity(this.currentNodesPerCommunity);
 	        	}
+	    		if (this.intraCommunityMsgEvent != null) {
+	    			this.intraCommunityMsgEvent.sentFromTo.clear();
+	    			router.setMsgEvent(this.intraCommunityMsgEvent);
+	    		}
 	        });
 		}
-	}
-	
-	public void triggerIntraCommunityMsgEvent() {
-		this.intraCommunityMsgEvent.setNextMsgEventInfo(currentNodesPerCommunity, intervalSize);
 	}
 }
