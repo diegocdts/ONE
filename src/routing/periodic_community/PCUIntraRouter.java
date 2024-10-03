@@ -1,7 +1,6 @@
 package routing.periodic_community;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
 
 import core.Connection;
 import core.DTNHost;
@@ -12,7 +11,7 @@ import routing.MessageRouter;
 import routing.RoutingDecisionEngine;
 
 public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
-			
+				
 	public PCUIntraRouter(Settings settings) {
 		super(settings);
 	}
@@ -21,11 +20,29 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 		super(pcuIntraRouter);
 	}
 	
+	public Collection<Message> messageCollection(DTNHost thisHost) {
+		MessageRouter mThisRouter = thisHost.getRouter();
+		Collection<Message> messageCollection = mThisRouter.getMessageCollection();
+		return messageCollection;
+	}
+	
 	@Override
 	public void connectionUp(DTNHost thisHost, DTNHost peer) {
 		PCU otherRouter = getDecisionEngineFromHost(peer);
 		if (this.getLabel() == otherRouter.getLabel()) {
-			this.triggerIntraCommunityMsgEvent(thisHost.getAddress(), peer.getAddress());
+			if (this.msgEvent.isThisAFirstFromCandidate(thisHost.getAddress())) {
+				int from = thisHost.getAddress();
+				int to = peer.getAddress();
+				this.msgEvent.setFirstMsgEventInfo(from, to);
+			}
+			else {
+				Collection<Message> thisMessageCollection = messageCollection(thisHost);
+				if (thisMessageCollection.size() == 1) {
+					for (Message m : thisMessageCollection) {
+						m.setTo(peer);
+					}
+				}
+			}
 		}
 	}
 	
@@ -43,7 +60,15 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	
 	@Override
 	public boolean isFinalDest(Message m, DTNHost aHost) {
-		return m.getTo() == aHost;
+		boolean isDest = m.getTo() == aHost;
+		Collection<Message> messageCollection = messageCollection(aHost);
+		if(isDest) {
+			if (messageCollection.size() == 0) {
+				MessageRouter mThisRouter = aHost.getRouter();
+				mThisRouter.createCopyMessage(m.replicate());
+			}
+		}
+		return isDest;
 	}
 	
 	@Override
@@ -56,15 +81,14 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	public boolean shouldSendMessageToHost(Message m, DTNHost otherHost) {
 
 		DTNHost destiny = m.getTo();
-		PCU destinyRouter = getDecisionEngineFromHost(destiny);
-		MessageRouter mRouter = otherHost.getRouter();
+		MessageRouter mOtherRouter = otherHost.getRouter();
+		
+		if(mOtherRouter.hasMessage(m.getId())) return false;
 				
-		if(destiny == otherHost && destinyRouter.getLabel() == this.getLabel()) {
+		if(destiny == otherHost) {
 			return true;
 		}
 		
-		if(mRouter.hasMessage(m.getId())) return false;
-
 		return false;
 	}
 	
@@ -88,9 +112,5 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 		assert router instanceof DecisionEngineRouter : "This router only works with other routers of same type";
 		
 		return (PCUIntraRouter) ((DecisionEngineRouter)router).getDecisionEngine();
-	}
-	
-	public void triggerIntraCommunityMsgEvent(int from, int to) {
-		this.msgEvent.setNextMsgEventInfo(from, to);
 	}
 }
