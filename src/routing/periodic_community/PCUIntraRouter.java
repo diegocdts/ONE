@@ -11,6 +11,8 @@ import routing.MessageRouter;
 import routing.RoutingDecisionEngine;
 
 public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
+	
+	boolean receivedTheMsg = false;
 				
 	public PCUIntraRouter(Settings settings) {
 		super(settings);
@@ -28,7 +30,7 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	
 	@Override
 	public void connectionUp(DTNHost thisHost, DTNHost peer) {
-		PCU otherRouter = getDecisionEngineFromHost(peer);
+		PCUIntraRouter otherRouter = getDecisionEngineFromHost(peer);
 		if (this.getLabel() == otherRouter.getLabel()) {
 			if (this.msgEvent.isThisAFirstFromCandidate(thisHost.getAddress())) {
 				int from = thisHost.getAddress();
@@ -37,7 +39,13 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 			}
 			else {
 				Collection<Message> thisMessageCollection = messageCollection(thisHost);
-				if (thisMessageCollection.size() == 1) {
+				if (thisMessageCollection.size() > 0 && !otherRouter.receivedTheMsg) {
+					if(thisMessageCollection.size() > 1) {
+						System.out.println(thisHost.getAddress());
+						for (Message m : thisMessageCollection) {
+							System.out.println(m.getFrom().getAddress()+ " "+m.getTo().getAddress()+" "+m.getCreationTime()+" "+m.getTtl()+" "+m.initTtl);
+						}
+					}
 					for (Message m : thisMessageCollection) {
 						m.setTo(peer);
 					}
@@ -54,27 +62,25 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	
 	@Override
 	public boolean newMessage(Message m) {
-		//System.out.println(this.getLabel()+ " "+ m.getFrom() + " " + m.getTo() + " " + m.getId());
+		this.receivedTheMsg = true;
 		return true;
 	}
 	
 	@Override
 	public boolean isFinalDest(Message m, DTNHost aHost) {
 		boolean isDest = m.getTo() == aHost;
-		Collection<Message> messageCollection = messageCollection(aHost);
 		if(isDest) {
-			if (messageCollection.size() == 0) {
-				MessageRouter mThisRouter = aHost.getRouter();
-				mThisRouter.createCopyMessage(m.replicate());
-			}
+			MessageRouter mThisRouter = aHost.getRouter();
+			mThisRouter.createCopyMessage(m.replicate());
 		}
-		return isDest;
+		this.receivedTheMsg = true;
+		return m.getTo() == aHost;
 	}
 	
 	@Override
 	public boolean shouldSaveReceivedMessage(Message m, DTNHost thisHost) {
-		MessageRouter router = thisHost.getRouter();
-		return m.getTo() != thisHost && !router.hasMessage(m.getId());
+		this.receivedTheMsg = true;
+		return true;
 	}
 	
 	@Override
@@ -82,8 +88,10 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 
 		DTNHost destiny = m.getTo();
 		MessageRouter mOtherRouter = otherHost.getRouter();
+		PCUIntraRouter otherRouter = getDecisionEngineFromHost(otherHost);
+
 		
-		if(mOtherRouter.hasMessage(m.getId())) return false;
+		if(otherRouter.receivedTheMsg || mOtherRouter.hasMessage(m.getId())) return false;
 				
 		if(destiny == otherHost) {
 			return true;

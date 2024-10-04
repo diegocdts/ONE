@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import core.Application;
 import core.Connection;
@@ -637,6 +638,13 @@ public abstract class MessageRouter {
 		return getClass().getSimpleName() + " of " + 
 			this.getHost().toString() + " with " + getNrofMessages() 
 			+ " messages";
+	}
+	
+	public void emptyMessages() {
+		Set<String> ids = messages.keySet();
+		for (String id : ids) {
+			deleteMessage(id, false);
+		}
 	}
 	
 	public abstract MessageRouter replicate();

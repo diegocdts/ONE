@@ -110,6 +110,7 @@ public class InputCommunityInfo {
 	        		router.setLabel(label);
 	        		router.setNodesPerCommunity(this.currentNodesPerCommunity);
 	        	}
+	    		if (this.intraCommunityMsgEvent != null) mRouter.emptyMessages();
 	        });
 			if (this.intraCommunityMsgEvent != null) {
 				createFirstIntraMessage();

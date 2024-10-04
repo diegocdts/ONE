@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import core.DTNHost;
-import core.Message;
 import core.Settings;
 import input.IntraCommunityMessageEvent;
 import routing.DecisionEngineRouter;
