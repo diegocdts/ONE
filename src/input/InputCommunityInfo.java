@@ -31,7 +31,7 @@ public class InputCommunityInfo {
 
 	public int currentInterval = 0;
 	public double currentThreshold = 1;
-	public String rootIntervalLabels = manhattan;
+	public String rootIntervalLabels = getRoot();
 	public int intervalSize = rootIntervalLabels == helsinki || rootIntervalLabels == manhattan? _40min : _4hours;
 	public String pathIntervalLabels = "";
 	public SimScenario scenario;
@@ -144,5 +144,12 @@ public class InputCommunityInfo {
 		}
 		this.intraCommunityMsgEvent.pair.clear();
 		this.intraCommunityMsgEvent.setFirstFroms(firstFroms);
+	}
+	
+	public String getRoot() {
+		if (Settings.DEF_SETTINGS_FILE.contains("helsinki")) return helsinki;
+		else if (Settings.DEF_SETTINGS_FILE.contains("manhattan")) return manhattan;
+		else if (Settings.DEF_SETTINGS_FILE.contains("_rt")) return rt;
+		else return sfc;
 	}
 }
