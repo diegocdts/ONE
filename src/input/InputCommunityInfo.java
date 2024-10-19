@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import core.Settings;
 import core.SimScenario;
@@ -41,7 +40,7 @@ public class InputCommunityInfo {
 	
 	public InputCommunityInfo(SimScenario scenario, double simTime) {
 		if (Settings.DEF_SETTINGS_FILE.contains("pcu")) {
-			
+			System.out.println(rootIntervalLabels);
 			this.scenario = scenario;
 			String fileName = "interval_X.txt".replace("X", String.valueOf(this.currentInterval));
 			
@@ -110,7 +109,9 @@ public class InputCommunityInfo {
 	        		router.setLabel(label);
 	        		router.setNodesPerCommunity(this.currentNodesPerCommunity);
 	        	}
-	    		if (this.intraCommunityMsgEvent != null) mRouter.emptyMessages();
+	    		if (this.intraCommunityMsgEvent != null) {
+	    			router.receivedMsg = false;
+	    		}
 	        });
 			if (this.intraCommunityMsgEvent != null) {
 				createFirstIntraMessage();
@@ -128,22 +129,12 @@ public class InputCommunityInfo {
 	    			router.setMsgEvent(this.intraCommunityMsgEvent);
 	    		}
 	        });
+			
 		}
 	}
 	
 	public void createFirstIntraMessage() {
-		Random rnd = new Random();
-		rnd.setSeed(123);
-		List<Integer> firstFroms = new ArrayList<Integer>();
-		
-		for (Integer label : this.currentNodesPerCommunity.keySet()) {
-			if (this.currentNodesPerCommunity.get(label).size() > 2) {
-				int indexFrom = rnd.nextInt(this.currentNodesPerCommunity.get(label).size()-1);
-				firstFroms.add(this.currentNodesPerCommunity.get(label).get(indexFrom));
-			}
-		}
-		this.intraCommunityMsgEvent.pair.clear();
-		this.intraCommunityMsgEvent.setFirstFroms(firstFroms);
+		this.intraCommunityMsgEvent.setCommunities(this.currentNodesPerCommunity);
 	}
 	
 	public String getRoot() {

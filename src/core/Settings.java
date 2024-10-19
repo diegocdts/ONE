@@ -53,8 +53,8 @@ public class Settings {
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/epidemic.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu.txt";
 	
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki.txt";
-	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/manhattan.txt";
+	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/manhattan.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc.txt";
 	

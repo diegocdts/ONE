@@ -23,6 +23,9 @@ public abstract class PCU{
 	protected int intraContacts = 0;
 	protected int interContacts = 0;
 	protected IntraCommunityMessageEvent msgEvent;
+	
+	public boolean receivedMsg = false;
+
 
 	public PCU(Settings settings) {}
 	
