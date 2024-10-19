@@ -27,11 +27,13 @@ public class InputCommunityInfo {
 	
 	int _4hours = 14400;
 	int _40min = 2400;
+	int _60min = 3600;
+	int _2hours = 7200;
 
 	public int currentInterval = 0;
 	public double currentThreshold = 1;
 	public String rootIntervalLabels = getRoot();
-	public int intervalSize = rootIntervalLabels == helsinki || rootIntervalLabels == manhattan? _40min : _4hours;
+	public int intervalSize = rootIntervalLabels == helsinki || rootIntervalLabels == manhattan? _2hours : _4hours;
 	public String pathIntervalLabels = "";
 	public SimScenario scenario;
 	public Map<Integer, Integer> currentCommunityIdMap;

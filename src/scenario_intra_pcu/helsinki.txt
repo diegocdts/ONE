@@ -11,7 +11,7 @@ Events1.prefix = M
 Events1.hosts = 0, 199
 Events1.tohosts = 0, 199
 Scenario.name = helsinki
-Group.msgTtl = 40
+Group.msgTtl = 120
 
 Report.nrofReports = 4 
 Report.warmup = 0
