@@ -27,13 +27,11 @@ public class InputCommunityInfo {
 	
 	int _4hours = 14400;
 	int _40min = 2400;
-	int _60min = 3600;
-	int _2hours = 7200;
-
+	
 	public int currentInterval = 0;
-	public double currentThreshold = 1;
+	public double currentThreshold = 0;
 	public String rootIntervalLabels = getRoot();
-	public int intervalSize = rootIntervalLabels == helsinki || rootIntervalLabels == manhattan? _2hours : _4hours;
+	public int intervalSize = rootIntervalLabels == helsinki || rootIntervalLabels == manhattan? _40min : _4hours;
 	public String pathIntervalLabels = "";
 	public SimScenario scenario;
 	public Map<Integer, Integer> currentCommunityIdMap;
@@ -42,17 +40,16 @@ public class InputCommunityInfo {
 	
 	public InputCommunityInfo(SimScenario scenario, double simTime) {
 		if (Settings.DEF_SETTINGS_FILE.contains("pcu")) {
-			System.out.println(rootIntervalLabels);
+			if(scenario.getExternalEvents().get(0) instanceof IntraCommunityMessageEvent) {
+				this.intraCommunityMsgEvent = (IntraCommunityMessageEvent) scenario.getExternalEvents().get(0);
+			}
+			System.out.println(rootIntervalLabels + " " + intervalSize);
 			this.scenario = scenario;
 			String fileName = "interval_X.txt".replace("X", String.valueOf(this.currentInterval));
 			
 			String pathIntervalLabels = this.rootIntervalLabels + fileName;
 			this.pathIntervalLabels = pathIntervalLabels;
-			
-			if(scenario.getExternalEvents().get(0) instanceof IntraCommunityMessageEvent) {
-				this.intraCommunityMsgEvent = (IntraCommunityMessageEvent) scenario.getExternalEvents().get(0);
-			}
-			
+						
 			loadCommunityLabels();
 			setRouterInfo();
 			injectMsgEvent();
@@ -71,6 +68,7 @@ public class InputCommunityInfo {
 				
 				loadCommunityLabels();
 				setRouterInfo();
+				injectMsgEvent();
 			} 
 		}
 	}
@@ -142,7 +140,7 @@ public class InputCommunityInfo {
 	public String getRoot() {
 		if (Settings.DEF_SETTINGS_FILE.contains("helsinki")) return helsinki;
 		else if (Settings.DEF_SETTINGS_FILE.contains("manhattan")) return manhattan;
-		else if (Settings.DEF_SETTINGS_FILE.contains("_rt")) return rt;
+		else if (Settings.DEF_SETTINGS_FILE.contains("rt")) return rt;
 		else return sfc;
 	}
 }

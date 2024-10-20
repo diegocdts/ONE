@@ -3,6 +3,7 @@ package input;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import core.Settings;
 import core.SimClock;
@@ -11,7 +12,7 @@ import core.SimClock;
 public class IntraCommunityMessageEvent extends MessageEventGenerator {
 	public int from;
 	public int to;
-	public int count = 0;
+	public Random rnd = new Random();
 	
 	private Map<Integer, List<Integer>> currentNodesPerCommunity = new HashMap<Integer, List<Integer>>();
 	
@@ -20,8 +21,9 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 	}
 	
 	public void setCommunities(Map<Integer, List<Integer>> currentNodesPerCommunity) {
-		this.currentNodesPerCommunity = currentNodesPerCommunity;
-		this.nextEventsTime = SimClock.getTime() + 0.1;
+		rnd.setSeed(0);
+		this.currentNodesPerCommunity.putAll(currentNodesPerCommunity);
+		this.nextEventsTime = SimClock.getTime();
 	}
 	
 	/** 
@@ -32,7 +34,7 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 		if (currentNodesPerCommunity.size() > 0) {
 			Map.Entry<Integer, List<Integer>> firstEntry = currentNodesPerCommunity.entrySet().iterator().next();
 			if (firstEntry.getValue().size() >= 2) {
-				this.from = firstEntry.getValue().removeFirst();
+				this.from = firstEntry.getValue().remove(rnd.nextInt(firstEntry.getValue().size()));
 				this.to = firstEntry.getValue().removeFirst();
 			}
 			else {
@@ -47,9 +49,7 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 		}
 		int responseSize = 0;
 		String id = getID();
-		
-		System.out.println(++count + " " + id);
-		
+				
 		MessageCreateEvent mce = new MessageCreateEvent(from, to, id, 
 					drawMessageSize(), responseSize, this.nextEventsTime);
 						

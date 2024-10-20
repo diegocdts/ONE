@@ -52,7 +52,10 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	public boolean shouldSendMessageToHost(Message m, DTNHost otherHost) {
 
 		PCUIntraRouter otherRouter = getDecisionEngineFromHost(otherHost);
-				
+		MessageRouter mRouter = otherHost.getRouter();
+		
+		if (mRouter.hasMessage(m.getId())) return false;
+						
 		if (this.getLabel() == otherRouter.getLabel()) {
 			return true;
 		}
