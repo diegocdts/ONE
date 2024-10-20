@@ -34,7 +34,7 @@ btInterface.transmitRange = 100
 Scenario.nrofHostGroups = 1
 
 Group.movementModel = ExternalMovement
-ExternalMovement.file = /home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/TRACE_SFC.txt
+ExternalMovement.file = /home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/trace.txt
 
 Group.router = DecisionEngineRouter
 DecisionEngineRouter.decisionEngine = periodic_community.PCURouter
@@ -55,7 +55,7 @@ Group1.groupID = v
 # seed for movement models' pseudo random number generator (default = 0)
 MovementModel.rngSeed = 1
 # World's size for Movement Models without implicit size (width, height; meters)
-MovementModel.worldSize = 89200, 89200
+MovementModel.worldSize = 200000, 200000
 # How long time to move hosts in the world before real simulation
 MovementModel.warmup = 1000
 

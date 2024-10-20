@@ -1,5 +1,5 @@
 Scenario.simulateConnections = true
-Scenario.updateInterval = 0.5
+Scenario.updateInterval = 1
 Scenario.endTime = 7200
 
 Events.nrof = 1
@@ -10,20 +10,19 @@ Events1.prefix = M
 
 Events1.hosts = 0, 399
 Events1.tohosts = 0, 399
-Scenario.name = manhattan
-Group.msgTtl = 120
+Scenario.name = manhattan_seed_4
+Group.msgTtl = 39
 
-Report.nrofReports = 4 
+Report.nrofReports = 3
 Report.warmup = 0
 Report.reportDir = reports/intra/manhattan/
 Report.report1 = EventLogReport
 Report.report2 = CreatedMessagesReport
 Report.report3 = DeliveredMessagesReport
-Report.report4 = BufferOccupancyReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k
-btInterface.transmitRange = 200
+btInterface.transmitRange = 500
 
 Scenario.nrofHostGroups = 1
 

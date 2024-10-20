@@ -59,7 +59,7 @@ Group1.groupID = v
 # seed for movement models' pseudo random number generator (default = 0)
 MovementModel.rngSeed = 1
 # World's size for Movement Models without implicit size (width, height; meters)
-MovementModel.worldSize = 25000, 25000
+MovementModel.worldSize = 120100, 120100
 # How long time to move hosts in the world before real simulation
 MovementModel.warmup = 1000
 

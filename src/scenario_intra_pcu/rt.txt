@@ -3,27 +3,25 @@ Scenario.updateInterval = 1
 Scenario.endTime = 86400
 
 Events.nrof = 1
-Events1.class = MessageEventGenerator
-Events1.interval = 15, 30
-Events1.time = 0, 43200
+Events1.class = IntraCommunityMessageEvent
+Events1.interval = 1
 Events1.size = 25k, 50k
 Events1.prefix = M
 
 Events1.hosts = 0, 315
-Scenario.name = rt
+Scenario.name = rt_seed_0
 Group.msgTtl = 240
 
-Report.nrofReports = 4
+Report.nrofReports = 3
 Report.warmup = 0
 Report.reportDir = reports/intra/rt/
 Report.report1 = EventLogReport
 Report.report2 = CreatedMessagesReport
 Report.report3 = DeliveredMessagesReport
-Report.report4 = BufferOccupancyReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k
-btInterface.transmitRange = 100
+btInterface.transmitRange = 500
 
 Scenario.nrofHostGroups = 1
 
@@ -31,7 +29,7 @@ Group.movementModel = ExternalMovement
 ExternalMovement.file = /home/diegocdts/PycharmProjects/FLPUCI-Datasets/romataxi/trace.txt
 
 Group.router = DecisionEngineRouter
-DecisionEngineRouter.decisionEngine = periodic_community.PCURouter
+DecisionEngineRouter.decisionEngine = periodic_community.PCUIntraRouter
 
 Group.nrofInterfaces = 1
 Group.interface1 = btInterface
@@ -49,7 +47,7 @@ Group1.groupID = v
 # seed for movement models' pseudo random number generator (default = 0)
 MovementModel.rngSeed = 1
 # World's size for Movement Models without implicit size (width, height; meters)
-MovementModel.worldSize = 25000, 25000
+MovementModel.worldSize = 120100, 120100
 # How long time to move hosts in the world before real simulation
 MovementModel.warmup = 1000
 
