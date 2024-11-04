@@ -14,7 +14,7 @@ Group.msgTtl = 240
 
 Report.nrofReports = 3
 Report.warmup = 0
-Report.reportDir = reports/intra/sfc/
+Report.reportDir = reports/intra/sfc/fedavg/
 Report.report1 = EventLogReport
 Report.report2 = CreatedMessagesReport
 Report.report3 = DeliveredMessagesReport

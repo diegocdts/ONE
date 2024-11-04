@@ -21,7 +21,7 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 	}
 	
 	public void setCommunities(Map<Integer, List<Integer>> currentNodesPerCommunity) {
-		rnd.setSeed(0);
+		rnd.setSeed(4);
 		this.currentNodesPerCommunity.putAll(currentNodesPerCommunity);
 		this.nextEventsTime = SimClock.getTime();
 	}

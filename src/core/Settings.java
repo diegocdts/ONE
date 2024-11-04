@@ -38,25 +38,25 @@ public class Settings {
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/mobility_generator.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcu.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcu2.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/mobility_generator.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcu.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcu2.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_sfc/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_sfc/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/pcu.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/pcu2.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu.txt";
+	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu2.txt";
 	
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki.txt";
-	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/manhattan.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki2.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/manhattan2.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt2.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc2.txt";
 	
 	/** 
 	 * Setting to define the file name where all read settings are written

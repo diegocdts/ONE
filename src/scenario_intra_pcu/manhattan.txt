@@ -15,7 +15,7 @@ Group.msgTtl = 39
 
 Report.nrofReports = 3
 Report.warmup = 0
-Report.reportDir = reports/intra/manhattan/
+Report.reportDir = reports/intra/manhattan/fedavg/
 Report.report1 = EventLogReport
 Report.report2 = CreatedMessagesReport
 Report.report3 = DeliveredMessagesReport

@@ -17,13 +17,13 @@ import routing.periodic_community.PCU;
 
 public class InputCommunityInfo {
 	
-	String helsinki = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
+	String helsinki = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
 	
-	String manhattan = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
+	String manhattan = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
 
-	String sfc = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
+	String sfc = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
 
-	String rt = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/romataxi/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
+	String rt = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/romataxi/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
 	
 	int _4hours = 14400;
 	int _40min = 2400;
