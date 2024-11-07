@@ -21,7 +21,7 @@ Group.msgTtl = 60
 
 Report.nrofReports = 4 
 Report.warmup = 0
-Report.reportDir = reports/manhattan/PCU/
+Report.reportDir = reports/manhattan/PCU_fedavg/
 Report.report1 = EventLogReport
 Report.report2 = CreatedMessagesReport
 Report.report3 = DeliveredMessagesReport
