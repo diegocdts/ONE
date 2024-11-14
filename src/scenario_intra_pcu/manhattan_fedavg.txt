@@ -13,12 +13,10 @@ Events1.tohosts = 0, 399
 Scenario.name = manhattan_seed_4
 Group.msgTtl = 39
 
-Report.nrofReports = 3
+Report.nrofReports = 1
 Report.warmup = 0
 Report.reportDir = reports/intra/manhattan/fedavg/
-Report.report1 = EventLogReport
-Report.report2 = CreatedMessagesReport
-Report.report3 = DeliveredMessagesReport
+Report.report1 = DeliveredMessagesReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k

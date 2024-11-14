@@ -12,12 +12,10 @@ Events1.hosts = 0, 535
 Scenario.name = sfc_seed_0
 Group.msgTtl = 240
 
-Report.nrofReports = 3
+Report.nrofReports = 1
 Report.warmup = 0
 Report.reportDir = reports/intra/sfc/fedavg/
-Report.report1 = EventLogReport
-Report.report2 = CreatedMessagesReport
-Report.report3 = DeliveredMessagesReport
+Report.report1 = DeliveredMessagesReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k
