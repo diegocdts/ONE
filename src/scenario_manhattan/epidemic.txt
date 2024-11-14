@@ -1,6 +1,6 @@
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.5
-Scenario.endTime = 7200
+Scenario.endTime = 14400
 
 Events.nrof = 1
 Events1.class = MessageEventGenerator
@@ -12,12 +12,12 @@ Events1.prefix = M
 Events1.hosts = 0, 399
 Scenario.name = Epidemic_ttl_30
 Group.msgTtl = 30
-Scenario.name = Epidemic_ttl_40
-Group.msgTtl = 40
-Scenario.name = Epidemic_ttl_50
-Group.msgTtl = 50
-Scenario.name = Epidemic_ttl_60
-Group.msgTtl = 60
+#Scenario.name = Epidemic_ttl_40
+#Group.msgTtl = 40
+#Scenario.name = Epidemic_ttl_50
+#Group.msgTtl = 50
+#Scenario.name = Epidemic_ttl_60
+#Group.msgTtl = 60
 
 Report.nrofReports = 4
 Report.warmup = 0

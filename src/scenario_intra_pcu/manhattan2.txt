@@ -1,6 +1,6 @@
 Scenario.simulateConnections = true
 Scenario.updateInterval = 1
-Scenario.endTime = 7200
+Scenario.endTime = 14400
 
 Events.nrof = 1
 Events1.class = IntraCommunityMessageEvent
@@ -10,7 +10,7 @@ Events1.prefix = M
 
 Events1.hosts = 0, 399
 Events1.tohosts = 0, 399
-Scenario.name = manhattan_seed_0
+Scenario.name = manhattan_seed_4
 Group.msgTtl = 39
 
 Report.nrofReports = 3
