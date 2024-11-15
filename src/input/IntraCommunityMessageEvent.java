@@ -21,9 +21,13 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 	}
 	
 	public void setCommunities(Map<Integer, List<Integer>> currentNodesPerCommunity) {
-		rnd.setSeed(4);
+		rnd.setSeed(3);
 		this.currentNodesPerCommunity.putAll(currentNodesPerCommunity);
 		this.nextEventsTime = SimClock.getTime();
+		if (currentNodesPerCommunity.size() > 0) {
+			Map.Entry<Integer, List<Integer>> firstEntry = currentNodesPerCommunity.entrySet().iterator().next();
+			this.from = firstEntry.getValue().remove(rnd.nextInt(firstEntry.getValue().size()));
+		}
 	}
 	
 	/** 
@@ -34,11 +38,14 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 		if (currentNodesPerCommunity.size() > 0) {
 			Map.Entry<Integer, List<Integer>> firstEntry = currentNodesPerCommunity.entrySet().iterator().next();
 			if (firstEntry.getValue().size() >= 2) {
-				this.from = firstEntry.getValue().remove(rnd.nextInt(firstEntry.getValue().size()));
 				this.to = firstEntry.getValue().removeFirst();
 			}
 			else {
 				currentNodesPerCommunity.remove(firstEntry.getKey());
+				if (currentNodesPerCommunity.size() > 0) {
+					firstEntry = currentNodesPerCommunity.entrySet().iterator().next();
+					this.from = firstEntry.getValue().remove(rnd.nextInt(firstEntry.getValue().size()));
+				}
 				return new ExternalEvent(Double.MAX_VALUE);
 			}
 			this.nextEventsTime = SimClock.getTime();
@@ -49,6 +56,7 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 		}
 		int responseSize = 0;
 		String id = getID();
+		System.out.println(from+" "+to);
 				
 		MessageCreateEvent mce = new MessageCreateEvent(from, to, id, 
 					drawMessageSize(), responseSize, this.nextEventsTime);

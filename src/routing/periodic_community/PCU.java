@@ -22,7 +22,6 @@ public abstract class PCU{
 	
 	protected int intraContacts = 0;
 	protected int interContacts = 0;
-	protected IntraCommunityMessageEvent msgEvent;
 	
 	public boolean receivedMsg = false;
 
@@ -80,9 +79,5 @@ public abstract class PCU{
 		intraCommunityContact.clear();
 		intraContacts = 0;
 		interContacts = 0;	
-	}
-	
-	public void setMsgEvent(IntraCommunityMessageEvent msgEvent) {
-		this.msgEvent = msgEvent;
 	}
 }

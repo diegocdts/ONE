@@ -52,7 +52,6 @@ public class InputCommunityInfo {
 						
 			loadCommunityLabels();
 			setRouterInfo();
-			injectMsgEvent();
 		}		
 	}
 	
@@ -68,7 +67,6 @@ public class InputCommunityInfo {
 				
 				loadCommunityLabels();
 				setRouterInfo();
-				injectMsgEvent();
 			} 
 		}
 	}
@@ -98,7 +96,7 @@ public class InputCommunityInfo {
 	}
 		
 	public void setRouterInfo() {
-		if (Settings.DEF_SETTINGS_FILE.contains("pcu")) {
+		if (Settings.DEF_SETTINGS_FILE.contains("pcu") && !Settings.DEF_SETTINGS_FILE.contains("epidemic")) {
 			scenario.getHosts().forEach(host ->
 	        {
         		MessageRouter mRouter = host.getRouter();
@@ -113,23 +111,9 @@ public class InputCommunityInfo {
 	    			router.receivedMsg = false;
 	    		}
 	        });
-			if (this.intraCommunityMsgEvent != null) {
-				createFirstIntraMessage();
-    		}
 		}
-	}
-	
-	public void injectMsgEvent() {
-		if (Settings.DEF_SETTINGS_FILE.contains("pcu")) {
-			scenario.getHosts().forEach(host ->
-	        {
-        		MessageRouter mRouter = host.getRouter();
-        		PCU router = (PCU) ((DecisionEngineRouter)mRouter).getDecisionEngine();
-	    		if (this.intraCommunityMsgEvent != null) {
-	    			router.setMsgEvent(this.intraCommunityMsgEvent);
-	    		}
-	        });
-			
+		if (this.intraCommunityMsgEvent != null) {
+			createFirstIntraMessage();
 		}
 	}
 	

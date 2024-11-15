@@ -51,12 +51,13 @@ public class Settings {
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/epidemic.txt";
-	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu2.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu2.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki2.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/manhattan2.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt2.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc2.txt";
+	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki_epidemic.txt";
 	
 	/** 
 	 * Setting to define the file name where all read settings are written
