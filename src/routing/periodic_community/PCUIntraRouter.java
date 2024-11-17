@@ -34,13 +34,25 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	
 	@Override
 	public boolean isFinalDest(Message m, DTNHost aHost) {
-		if (receivedMsg) {
-			return false;
+		DTNHost destiny = m.getTo();
+		PCU destinyRouter = this.getDecisionEngineFromHost(destiny);
+		PCU aHostRouter = this.getDecisionEngineFromHost(aHost);
+		if (aHostRouter.getLabel() == destinyRouter.getLabel()) {
+			if (receivedMsg) {
+				return false;
+			}
+			else {
+				receivedMsg = true;
+				return true;
+			}
 		}
-		else {
-			receivedMsg = true;
+		else if (aHost == destiny) {
 			return true;
 		}
+		else {
+			return false;
+		}
+		
 	}
 	
 	@Override
@@ -51,13 +63,33 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	@Override
 	public boolean shouldSendMessageToHost(Message m, DTNHost otherHost) {
 
+		DTNHost destiny = m.getTo();
+		PCU destinyRouter = this.getDecisionEngineFromHost(destiny);
 		PCUIntraRouter otherRouter = getDecisionEngineFromHost(otherHost);
 		MessageRouter mRouter = otherHost.getRouter();
 		
 		if (mRouter.hasMessage(m.getId())) return false;
 						
-		if (this.getLabel() == otherRouter.getLabel()) {
+		if (destinyRouter.getLabel() == otherRouter.getLabel()) {
 			return true;
+		}
+		else {						
+			int thisInterContactsWithDest = interCommunityContact.getOrDefault(destiny.getAddress(), 0);
+			int otherInterContactsWithDest = otherRouter.interCommunityContact.getOrDefault(destiny.getAddress(), 0);
+			
+			int thisContactsWithDestComm = contactsWithCommunity.getOrDefault(destinyRouter.getLabel(), 0);
+			int otherContactsWithDestComm = otherRouter.contactsWithCommunity.getOrDefault(destinyRouter.getLabel(), 0);
+			
+			boolean cond1 = otherRouter.interContacts > this.interContacts;
+			boolean cond2 = otherRouter.contactsWithCommunity.size() > this.contactsWithCommunity.size();
+			boolean cond3 = otherContactsWithDestComm > thisContactsWithDestComm;
+			boolean cond4 = otherInterContactsWithDest > thisInterContactsWithDest;
+			boolean cond5 = otherRouter.interCommunityContact.size() > interCommunityContact.size();
+			int check = (cond1? 1 : 0) + (cond2? 1 : 0) + (cond3? 1 : 0) + (cond4? 1 : 0) + (cond5? 1 : 0);
+			
+			if (check >= 2) {
+				return true;
+			}
 		}
 		
 		return false;

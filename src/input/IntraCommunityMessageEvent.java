@@ -21,7 +21,7 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 	}
 	
 	public void setCommunities(Map<Integer, List<Integer>> currentNodesPerCommunity) {
-		rnd.setSeed(3);
+		rnd.setSeed(4);
 		this.currentNodesPerCommunity.putAll(currentNodesPerCommunity);
 		this.nextEventsTime = SimClock.getTime();
 		if (currentNodesPerCommunity.size() > 0) {
@@ -37,7 +37,7 @@ public class IntraCommunityMessageEvent extends MessageEventGenerator {
 	public ExternalEvent nextEvent() {
 		if (currentNodesPerCommunity.size() > 0) {
 			Map.Entry<Integer, List<Integer>> firstEntry = currentNodesPerCommunity.entrySet().iterator().next();
-			if (firstEntry.getValue().size() >= 2) {
+			if (firstEntry.getValue().size() >= 1) {
 				this.to = firstEntry.getValue().removeFirst();
 			}
 			else {
