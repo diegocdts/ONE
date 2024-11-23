@@ -17,13 +17,17 @@ import routing.periodic_community.PCU;
 
 public class InputCommunityInfo {
 	
-	String helsinki = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
+	String helsinki_fedavg = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
+	String helsinki_fedprox = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/helsinki/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
 	
-	String manhattan = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
+	String manhattan_fedavg = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_AVG/ACC_community_info/community_id_maps/";
+	String manhattan_fedprox = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/manhattan/f9_results/FL-based/FED_PROX_1.0/ACC_community_info/community_id_maps/";
 
-	String sfc = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
+	String sfc_fedavg = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
+	String sfc_fedprox = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
 
-	String rt = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/romataxi/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
+	String rt_fedavg = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/romataxi/f9_results/FL-based/FED_AVG/SLI_community_info/community_id_maps/";
+	String rt_fedprox = "/home/diegocdts/PycharmProjects/FLPUCI-Datasets/romataxi/f9_results/FL-based/FED_PROX_1.0/SLI_community_info/community_id_maps/";
 	
 	int _4hours = 14400;
 	int _40min = 2400;
@@ -31,7 +35,7 @@ public class InputCommunityInfo {
 	public int currentInterval = 0;
 	public double currentThreshold = 0;
 	public String rootIntervalLabels = getRoot();
-	public int intervalSize = rootIntervalLabels == helsinki || rootIntervalLabels == manhattan? _40min : _4hours;
+	public int intervalSize = rootIntervalLabels.contains("helsinki") || rootIntervalLabels.contains("manhattan")? _40min : _4hours;
 	public String pathIntervalLabels = "";
 	public SimScenario scenario;
 	public Map<Integer, Integer> currentCommunityIdMap;
@@ -122,9 +126,21 @@ public class InputCommunityInfo {
 	}
 	
 	public String getRoot() {
-		if (Settings.DEF_SETTINGS_FILE.contains("helsinki")) return helsinki;
-		else if (Settings.DEF_SETTINGS_FILE.contains("manhattan")) return manhattan;
-		else if (Settings.DEF_SETTINGS_FILE.contains("rt")) return rt;
-		else return sfc;
+		if (Settings.DEF_SETTINGS_FILE.contains("helsinki")) {
+			if (Settings.DEF_SETTINGS_FILE.contains("fedavg")) return helsinki_fedavg;
+			else return helsinki_fedprox;
+		}
+		else if (Settings.DEF_SETTINGS_FILE.contains("manhattan")) {
+			if (Settings.DEF_SETTINGS_FILE.contains("fedavg")) return manhattan_fedavg;
+			else return manhattan_fedprox;
+		}
+		else if (Settings.DEF_SETTINGS_FILE.contains("rt")) {
+			if (Settings.DEF_SETTINGS_FILE.contains("fedavg")) return rt_fedavg;
+			else return rt_fedprox;
+		}
+		else {
+			if (Settings.DEF_SETTINGS_FILE.contains("fedavg")) return sfc_fedavg;
+			else return sfc_fedprox;
+		}
 	}
 }

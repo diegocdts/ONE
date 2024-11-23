@@ -53,8 +53,8 @@ public class Settings {
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/epidemic.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu2.txt";
 	
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki_epidemic_fedavg.txt";
-	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki_epidemic_fedprox.txt";
+	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki_epidemic_fedavg.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki_epidemic_fedprox.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki_fedavg.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki_fedprox.txt";
 	
@@ -62,8 +62,16 @@ public class Settings {
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/manhattan_epidemic_fedprox.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/manhattan_fedavg.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/manhattan_fedprox.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt2.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc2.txt";
+
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt_epidemic_fedavg.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt_epidemic_fedprox.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt_fedavg.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/rt_fedprox.txt";
+	
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc_epidemic_fedavg.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc_epidemic_fedprox.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc_fedavg.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/sfc_fedprox.txt";
 	
 	/** 
 	 * Setting to define the file name where all read settings are written

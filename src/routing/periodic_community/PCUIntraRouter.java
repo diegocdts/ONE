@@ -19,7 +19,11 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	}
 	
 	@Override
-	public void connectionUp(DTNHost thisHost, DTNHost peer) {}
+	public void connectionUp(DTNHost thisHost, DTNHost peer) {
+		PCU otherRouter = getDecisionEngineFromHost(peer);
+		updateContacts(thisHost, peer);
+		otherRouter.updateContacts(peer, thisHost);
+	}	
 	
 	@Override
 	public void connectionDown(DTNHost thisHost, DTNHost peer) {}
@@ -34,25 +38,7 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	
 	@Override
 	public boolean isFinalDest(Message m, DTNHost aHost) {
-		DTNHost destiny = m.getTo();
-		PCU destinyRouter = this.getDecisionEngineFromHost(destiny);
-		PCU aHostRouter = this.getDecisionEngineFromHost(aHost);
-		if (aHostRouter.getLabel() == destinyRouter.getLabel()) {
-			if (receivedMsg) {
-				return false;
-			}
-			else {
-				receivedMsg = true;
-				return true;
-			}
-		}
-		else if (aHost == destiny) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
+		return aHost == m.getTo();	
 	}
 	
 	@Override
