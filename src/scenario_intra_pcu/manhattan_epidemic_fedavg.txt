@@ -15,21 +15,19 @@ Group.msgTtl = 40
 
 Report.nrofReports = 2
 Report.warmup = 0
-Report.reportDir = reports/intra/manhattan/fedprox/
+Report.reportDir = reports/intra/manhattan/epidemic_fedavg/
 Report.report1 = CreatedMessagesReport
 Report.report2 = DeliveredMessagesReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k
-btInterface.transmitRange = 350
+btInterface.transmitRange = 300
 
 Scenario.nrofHostGroups = 1
 
 Group.movementModel = ShortestPathMapBasedMovement
 
-Group.router = DecisionEngineRouter
-DecisionEngineRouter.decisionEngine = periodic_community.PCUIntraRouter
-
+Group.router = EpidemicRouter
 
 Group.nrofInterfaces = 1
 Group.interface1 = btInterface

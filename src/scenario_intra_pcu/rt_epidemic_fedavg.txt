@@ -1,6 +1,6 @@
 Scenario.simulateConnections = true
 Scenario.updateInterval = 1
-Scenario.endTime = 14400
+Scenario.endTime = 86400
 
 Events.nrof = 1
 Events1.class = IntraCommunityMessageEvent
@@ -8,28 +8,26 @@ Events1.interval = 1
 Events1.size = 25k, 50k
 Events1.prefix = M
 
-Events1.hosts = 0, 399
-Events1.tohosts = 0, 399
-Scenario.name = manhattan_seed_0
-Group.msgTtl = 40
+Events1.hosts = 0, 315
+Scenario.name = rt_seed_1
+Group.msgTtl = 240
 
 Report.nrofReports = 2
 Report.warmup = 0
-Report.reportDir = reports/intra/manhattan/fedprox/
+Report.reportDir = reports/intra/rt/epidemic_fedavg/
 Report.report1 = CreatedMessagesReport
 Report.report2 = DeliveredMessagesReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k
-btInterface.transmitRange = 350
+btInterface.transmitRange = 100
 
 Scenario.nrofHostGroups = 1
 
-Group.movementModel = ShortestPathMapBasedMovement
+Group.movementModel = ExternalMovement
+ExternalMovement.file = /home/diegocdts/PycharmProjects/FLPUCI-Datasets/romataxi/trace.txt
 
-Group.router = DecisionEngineRouter
-DecisionEngineRouter.decisionEngine = periodic_community.PCUIntraRouter
-
+Group.router = EpidemicRouter
 
 Group.nrofInterfaces = 1
 Group.interface1 = btInterface
@@ -38,24 +36,18 @@ Group.bufferSize = 2G
 Group.waitTime = 30, 60
 Group.speed = 0.5, 1.5
 
-Group.nrofHosts = 400
+Group.nrofHosts = 316
 
 # group1 (pedestrians) specific settings
-Group1.groupID = p
+Group1.groupID = v
 
 ## Movement model settings
 # seed for movement models' pseudo random number generator (default = 0)
 MovementModel.rngSeed = 1
 # World's size for Movement Models without implicit size (width, height; meters)
-MovementModel.worldSize = 7000, 7000
+MovementModel.worldSize = 120100, 120100
 # How long time to move hosts in the world before real simulation
 MovementModel.warmup = 1000
-
-## Map based movement -movement model specific settings
-MapBasedMovement.nrofMapFiles = 2
-
-MapBasedMovement.mapFile1 = data/Manhattan/roads.wkt
-MapBasedMovement.mapFile2 = data/Manhattan/bus.wkt
 
 ## Default settings for some routers settings
 ProphetRouter.secondsInTimeUnit = 30

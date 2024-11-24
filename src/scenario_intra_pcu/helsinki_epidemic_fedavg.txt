@@ -5,18 +5,19 @@ Scenario.endTime = 14400
 Events.nrof = 1
 Events1.class = IntraCommunityMessageEvent
 Events1.interval = 1
-Events1.size = 1k
+Events1.size = 25k, 50k
 Events1.prefix = M
 
 Events1.hosts = 0, 199
 Events1.tohosts = 0, 199
-Scenario.name = helsinki_seed_4
+Scenario.name = helsinki_seed_1
 Group.msgTtl = 40
 
-Report.nrofReports = 1
+Report.nrofReports = 2
 Report.warmup = 0
 Report.reportDir = reports/intra/helsinki/epidemic_fedavg/
-Report.report1 = DeliveredMessagesReport
+Report.report1 = CreatedMessagesReport
+Report.report2 = DeliveredMessagesReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k

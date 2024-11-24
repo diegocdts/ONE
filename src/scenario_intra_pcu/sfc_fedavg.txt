@@ -1,6 +1,6 @@
 Scenario.simulateConnections = true
-Scenario.updateInterval = 1
-Scenario.endTime = 86400
+Scenario.updateInterval = 2
+Scenario.endTime = 72000
 
 Events.nrof = 1
 Events1.class = IntraCommunityMessageEvent
@@ -9,17 +9,18 @@ Events1.size = 25k, 50k
 Events1.prefix = M
 
 Events1.hosts = 0, 535
-Scenario.name = sfc_seed_0
+Scenario.name = sfc_seed_1
 Group.msgTtl = 240
 
-Report.nrofReports = 1
+Report.nrofReports = 2
 Report.warmup = 0
 Report.reportDir = reports/intra/sfc/fedavg/
-Report.report1 = DeliveredMessagesReport
+Report.report1 = CreatedMessagesReport
+Report.report2 = DeliveredMessagesReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k
-btInterface.transmitRange = 500
+btInterface.transmitRange = 100
 
 Scenario.nrofHostGroups = 1
 
