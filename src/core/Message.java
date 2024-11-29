@@ -49,6 +49,8 @@ public class Message implements Comparable<Message> {
 	/** Application ID of the application that created the message */
 	private String	appID;
 	
+	public double previousCentrality;
+	
 	static {
 		reset();
 		DTNSim.registerForReset(Message.class.getCanonicalName());
@@ -172,6 +174,10 @@ public class Message implements Comparable<Message> {
 	 */
 	public void setTtl(int ttl) {
 		this.initTtl = ttl;
+	}
+	
+	public int getInitTtl() {
+		return this.initTtl;
 	}
 	
 	/**
