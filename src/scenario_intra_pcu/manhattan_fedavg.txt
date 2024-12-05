@@ -21,7 +21,7 @@ Report.report2 = DeliveredMessagesReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k
-btInterface.transmitRange = 350
+btInterface.transmitRange = 300
 
 Scenario.nrofHostGroups = 1
 

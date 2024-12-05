@@ -37,8 +37,8 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	}
 	
 	@Override
-	public boolean isFinalDest(Message m, DTNHost aHost) {
-		return aHost == m.getTo();	
+	public boolean isFinalDest(Message m, DTNHost aHost) {	
+		return m.getTo().getAddress() == aHost.getAddress();
 	}
 	
 	@Override
