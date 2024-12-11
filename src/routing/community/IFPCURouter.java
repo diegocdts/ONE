@@ -1,4 +1,4 @@
-package routing.periodic_community;
+package routing.community;
 
 import core.Connection;
 import core.DTNHost;
@@ -8,13 +8,13 @@ import routing.DecisionEngineRouter;
 import routing.MessageRouter;
 import routing.RoutingDecisionEngine;
 
-public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
+public class IFPCURouter extends PCU implements RoutingDecisionEngine{
 					
-	public PCUIntraRouter(Settings settings) {
+	public IFPCURouter(Settings settings) {
 		super(settings);
 	}
 	
-	public PCUIntraRouter(PCUIntraRouter pcuIntraRouter) {
+	public IFPCURouter(IFPCURouter pcuIntraRouter) {
 		super(pcuIntraRouter);
 	}
 	
@@ -51,7 +51,7 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 
 		DTNHost destiny = m.getTo();
 		PCU destinyRouter = this.getDecisionEngineFromHost(destiny);
-		PCUIntraRouter otherRouter = getDecisionEngineFromHost(otherHost);
+		IFPCURouter otherRouter = getDecisionEngineFromHost(otherHost);
 		MessageRouter mRouter = otherHost.getRouter();
 		
 		if (mRouter.hasMessage(m.getId())) return false;
@@ -93,13 +93,13 @@ public class PCUIntraRouter extends PCU implements RoutingDecisionEngine{
 	
 	@Override
 	public RoutingDecisionEngine replicate() {
-		return new PCUIntraRouter(this);
+		return new IFPCURouter(this);
 	}
 	
-	public PCUIntraRouter getDecisionEngineFromHost(DTNHost host) {
+	public IFPCURouter getDecisionEngineFromHost(DTNHost host) {
 		MessageRouter router = host.getRouter();
 		assert router instanceof DecisionEngineRouter : "This router only works with other routers of same type";
 		
-		return (PCUIntraRouter) ((DecisionEngineRouter)router).getDecisionEngine();
+		return (IFPCURouter) ((DecisionEngineRouter)router).getDecisionEngine();
 	}
 }

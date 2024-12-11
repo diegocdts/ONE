@@ -12,7 +12,7 @@ import core.Settings;
 import core.SimScenario;
 import routing.DecisionEngineRouter;
 import routing.MessageRouter;
-import routing.periodic_community.PCU;
+import routing.community.PCU;
 
 
 public class InputCommunityInfo {

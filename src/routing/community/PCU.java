@@ -1,4 +1,4 @@
-package routing.periodic_community;
+package routing.community;
 
 import java.util.HashMap;
 import java.util.List;
