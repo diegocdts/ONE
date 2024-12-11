@@ -268,6 +268,7 @@ public class Message implements Comparable<Message> {
 		this.requestMsg  = m.requestMsg;
 		this.initTtl = m.initTtl;
 		this.appID = m.appID;
+		this.previousCentrality = m.previousCentrality;
 		
 		if (m.properties != null) {
 			Set<String> keys = m.properties.keySet();

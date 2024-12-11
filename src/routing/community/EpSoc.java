@@ -9,10 +9,7 @@ import routing.MessageRouter;
 import routing.RoutingDecisionEngine;
 
 
-public class EpSoc 
-				implements RoutingDecisionEngine
-{
-	/** Centrality Computation Algorithm to employ -setting id {@value} */
+public class EpSoc implements RoutingDecisionEngine {
 	public static final String CENTRALITY_ALG_SETTING = "centralityAlg";
 	
 	protected Map<DTNHost, Double> startTimestamps;
@@ -28,7 +25,7 @@ public class EpSoc
 			this.centrality = (Centrality) 
 				s.createIntializedObject(s.getSetting(CENTRALITY_ALG_SETTING));
 		else
-			this.centrality = new SWindowCentrality(s);
+			this.centrality = new CWindowCentrality(s);
 	}
 	
 	
@@ -85,8 +82,11 @@ public class EpSoc
 
 	public boolean shouldSaveReceivedMessage(Message m, DTNHost thisHost)
 	{
-		EpSoc de = getOtherDecisionEngine(thisHost);
-		double nodeCentrality = de.getGlobalCentrality();
+		MessageRouter mRouter = thisHost.getRouter();
+		
+		if (mRouter.hasMessage(m.getId()) || blockRegister.containsKey(m.getId())) return false;
+		
+		double nodeCentrality = getGlobalCentrality();
 		if(nodeCentrality > m.previousCentrality) {
 			if (nodeCentrality < 1) {
 				nodeCentrality += 1;
@@ -104,8 +104,8 @@ public class EpSoc
 		MessageRouter mRouter = otherHost.getRouter();
 		
 		if (mRouter.hasMessage(m.getId()) || de.blockRegister.containsKey(m.getId())) return false;
-		
-		m.previousCentrality = this.getGlobalCentrality();
+				
+		m.previousCentrality = getGlobalCentrality();
 		return true;
 	}
 
@@ -116,6 +116,7 @@ public class EpSoc
 
 	public boolean shouldDeleteOldMessage(Message m, DTNHost hostReportingOld)
 	{
+		blockRegister.put(m.getId(), 0);
 		return true;
 	}
 
