@@ -29,7 +29,7 @@ Group.nrofHosts = 200
 #DecisionEngineRouter.decisionEngine = community.EpSoc
 #DecisionEngineRouter.decisionEngine = community.SimBet
 #DecisionEngineRouter.decisionEngine = community.DistributedBubbleRap
-#DecisionEngineRouter.decisionEngine = periodic_community.PCURouter
+#DecisionEngineRouter.decisionEngine = community.PCURouter
 
 DecisionEngineRouter.K = 5
 DecisionEngineRouter.familiarThreshold = 700
