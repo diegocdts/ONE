@@ -1,54 +1,61 @@
+Scenario.name = TTL_%%Group.msgTtl%%
 Scenario.simulateConnections = true
 Scenario.updateInterval = 1
-Scenario.endTime = 86400
+Scenario.endTime = 79200
+Scenario.nrofHostGroups = 1
 
 Events.nrof = 1
 Events1.class = MessageEventGenerator
 Events1.interval = 15, 30
 Events1.time = 0, 43200
-Events1.size = 25k, 50k
+Events1.size = 25k
 Events1.prefix = M
-
 Events1.hosts = 0, 535
-Scenario.name = Epidemic_ttl_180
-Group.msgTtl = 180
-Scenario.name = Epidemic_ttl_360
-Group.msgTtl = 360
-Scenario.name = Epidemic_ttl_540
-Group.msgTtl = 540
-Scenario.name = Epidemic_ttl_720
-Group.msgTtl = 720
 
-Report.nrofReports = 4
+Group.msgTtl = 120
+Group.msgTtl = 240
+Group.msgTtl = 480
+Group.msgTtl = 720
+Group.router = EpidemicRouter
+#Group.router = DecisionEngineRouter
+Group.movementModel = ShortestPathMapBasedMovement
+Group.nrofInterfaces = 1
+Group.interface1 = btInterface
+Group.bufferSize = 2G
+Group.nrofHosts = 536
+Group.movementModel = ExternalMovement
+ExternalMovement.file = /home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/trace.txt
+
+DecisionEngineRouter.decisionEngine = community.EpSoc
+#DecisionEngineRouter.decisionEngine = community.SimBet
+#DecisionEngineRouter.decisionEngine = community.DistributedBubbleRap
+#DecisionEngineRouter.decisionEngine = community.PCURouter
+
+DecisionEngineRouter.K = 5
+DecisionEngineRouter.familiarThreshold = 700
+DecisionEngineRouter.a = 0.5
+
+# if decisionEngine is EpSoc or DistributedBubbleRap
+DecisionEngineRouter.centralityAlg = routing.community.CWindowCentrality
+# if decisionEngine is SimBet
+#DecisionEngineRouter.centralityAlg = routing.community.BetweennessCentrality
+
+DecisionEngineRouter.similarityAlg = routing.community.NeighbourhoodSimilarity
+DecisionEngineRouter.communityDetectAlg = routing.community.KCliqueCommunityDetection
+
+Report.nrofReports = 3
 Report.warmup = 0
-Report.reportDir = reports/sfc/Epidemic/
+Report.reportDir = reports/sfc/%%Group.router%%/
 Report.report1 = EventLogReport
 Report.report2 = CreatedMessagesReport
 Report.report3 = DeliveredMessagesReport
-Report.report4 = BufferOccupancyReport
 
 btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 125k
 btInterface.transmitRange = 100
 
-Scenario.nrofHostGroups = 1
-
-Group.movementModel = ExternalMovement
-ExternalMovement.file = /home/diegocdts/PycharmProjects/FLPUCI-Datasets/sanfranciscocabs/trace.txt
-
-Group.router = EpidemicRouter
-
-Group.nrofInterfaces = 1
-Group.interface1 = btInterface
-Group.bufferSize = 2G
-
-Group.waitTime = 30, 60
-Group.speed = 0.5, 1.5
-
-Group.nrofHosts = 536
-
-# group1 (pedestrians) specific settings
-Group1.groupID = v
+# group1 (taxis) specific settings
+Group1.groupID = t
 
 ## Movement model settings
 # seed for movement models' pseudo random number generator (default = 0)
@@ -71,8 +78,6 @@ Optimization.randomizeUpdateOrder = true
 
 ## GUI settings
 
-# GUI underlay image settings
-GUI.UnderlayImage.fileName = data/helsinki_underlay.png
 # Image offset in pixels (x, y)
 GUI.UnderlayImage.offset = 64, 20
 # Scaling factor for the image
