@@ -36,30 +36,26 @@ public class Settings {
 	public static final String DEF_SETTINGS_FILE ="default_settings.txt";
 
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/mobility_generator.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/epsoc.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/protocols.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcu_fedavg.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_helsinki/pcu_fedprox.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/mobility_generator.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/epsoc.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/protocols.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcu_fedavg.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_manhattan/pcu_fedprox.txt";
 	
-//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/bubblerap.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/epsoc.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/pcu_fedavg.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/pcu_fedprox.txt";
-	
-//	public static final String DEF_SETTINGS_FILE ="scenario_rt/bubblerap.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/epidemic.txt";
-//	public static final String DEF_SETTINGS_FILE ="scenario_rt/epsoc.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_rt/protocols.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu_fedavg.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_rt/pcu_fedprox.txt";
+	
+//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/epidemic.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/protocols.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/pcu_fedavg.txt";
+//	public static final String DEF_SETTINGS_FILE ="scenario_sfc/pcu_fedprox.txt";
 	
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki_epidemic_fedavg.txt";
 //	public static final String DEF_SETTINGS_FILE ="scenario_intra_pcu/helsinki_epidemic_fedprox.txt";
